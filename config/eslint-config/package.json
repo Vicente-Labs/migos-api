@@ -1,5 +1,5 @@
 {
-  "name": "@repo/eslint-config",
+  "name": "@migos/eslint-config",
   "version": "0.0.0",
   "private": true,
   "files": [
@@ -8,12 +8,15 @@
     "node.js"
   ],
   "devDependencies": {
-    "@repo/prettier": "workspace:*",
+    "@migos/prettier": "workspace:*",
     "@rocketseat/eslint-config": "^2.2.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-simple-import-sort": "^12.1.0"
   },
-  "prettier": "@repo/prettier",
+  "prettier": "@migos/prettier",
   "eslintConfig": {
-    "extends": ["./library.js"]
+    "extends": [
+      "./library.js"
+    ]
   }
 }

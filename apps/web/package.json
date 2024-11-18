@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "env:load": "dotenv -e ../../.env --",
+    "dev": "pnpm env:load next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -11,17 +12,17 @@
   "dependencies": {
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.428.0",
-    "next": "15.0.0-rc.0",
-    "react": "19.0.0-rc-f994737d14-20240522",
-    "react-dom": "19.0.0-rc-f994737d14-20240522",
-    "tailwind-merge": "^2.5.2",
+    "lucide-react": "^0.460.0",
+    "next": "15.0.4-canary.18",
+    "react": "19.0.0-rc-380f5d67-20241113",
+    "react-dom": "19.0.0-rc-380f5d67-20241113",
+    "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/prettier": "workspace:*",
-    "@repo/tsconfig": "workspace:*",
+    "@migos/eslint-config": "workspace:*",
+    "@migos/prettier": "workspace:*",
+    "@migos/tsconfig": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -29,10 +30,10 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
-  "prettier": "@repo/prettier",
+  "prettier": "@migos/prettier",
   "eslintConfig": {
     "extends": [
-      "@repo/eslint-config/next"
+      "@migos/eslint-config/next"
     ]
   }
 }
