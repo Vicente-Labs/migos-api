@@ -13,19 +13,21 @@ export async function createInvite(app: FastifyInstance) {
     .register(auth)
     .withTypeProvider<ZodTypeProvider>()
     .post(
-      '/invites',
+      '/group/:groupId/invites',
       {
         schema: {
           tags: ['invites'],
-          body: z.object({
+          params: z.object({
             groupId: z.string().uuid(),
+          }),
+          body: z.object({
             name: z.string(),
             email: z.string().email(),
           }),
         },
       },
       async (req, res) => {
-        const { groupId, email, name } = req.body
+        const { groupId } = req.params
 
         const { sub: userId } = await req.getCurrentUserId()
         const { membership } = await req.getUserMembership(groupId)
@@ -36,6 +38,8 @@ export async function createInvite(app: FastifyInstance) {
           throw new UnauthorizedError(
             'you are not allowed to invite users to this group',
           )
+
+        const { email, name } = req.body
 
         const [invite] = await db
           .insert(invites)
