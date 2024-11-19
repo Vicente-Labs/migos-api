@@ -29,6 +29,7 @@ import { updateDescription } from './routes/group/update-description'
 import { acceptInvite } from './routes/invites/accept-invite'
 import { createInvite } from './routes/invites/create-invite'
 import { fetchInvites } from './routes/invites/fetch-invites'
+import { getPendingInvites } from './routes/invites/fetch-pending-invites'
 import { revokeInvite } from './routes/invites/revoke-invite'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -88,6 +89,7 @@ app.register(createInvite)
 app.register(acceptInvite)
 app.register(fetchInvites)
 app.register(revokeInvite)
+app.register(getPendingInvites)
 
 app
   .listen({
