@@ -28,6 +28,7 @@ import { transferGroupOwnership } from './routes/group/transfer-group-ownership'
 import { updateDescription } from './routes/group/update-description'
 import { acceptInvite } from './routes/invites/accept-invite'
 import { createInvite } from './routes/invites/create-invite'
+import { fetchInvites } from './routes/invites/fetch-invites'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -84,6 +85,7 @@ app.register(getMyMatch)
 
 app.register(createInvite)
 app.register(acceptInvite)
+app.register(fetchInvites)
 
 app
   .listen({
