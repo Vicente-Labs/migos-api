@@ -1,6 +1,6 @@
 import { createId } from '@paralleldrive/cuid2'
 import { relations } from 'drizzle-orm'
-import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { decimal, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 
 import { invites } from './invites'
 import { member } from './member'
@@ -13,7 +13,7 @@ export const groups = pgTable('groups', {
 
   name: text('name').notNull(),
   description: text('description'),
-  budget: integer('budget'),
+  budget: decimal('budget', { precision: 10, scale: 2 }).notNull(),
 
   avatarUrl: text('avatar_url'),
 

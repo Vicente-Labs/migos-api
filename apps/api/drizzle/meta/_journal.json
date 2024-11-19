@@ -78,6 +78,13 @@
       "when": 1732034454826,
       "tag": "20241119164054_remove-unnecessary-coloumn",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1732038121241,
+      "tag": "20241119174201_budget-as-decimal",
+      "breakpoints": true
     }
   ]
 }
