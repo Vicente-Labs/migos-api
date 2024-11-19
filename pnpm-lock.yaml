@@ -32,6 +32,9 @@ importers:
       '@fastify/swagger-ui':
         specifier: ^4.0.1
         version: 4.1.0
+      '@migos/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@paralleldrive/cuid2':
         specifier: ^2.2.2
         version: 2.2.2
@@ -50,6 +53,9 @@ importers:
       fastify-type-provider-zod:
         specifier: ^2.0.0
         version: 2.0.0(fastify@4.28.1)(zod@3.23.8)
+      jose:
+        specifier: ^5.9.6
+        version: 5.9.6
       pg:
         specifier: ^8.13.1
         version: 8.13.1
@@ -2111,6 +2117,9 @@ packages:
   jiti@1.21.6:
     resolution: {integrity: sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==}
     hasBin: true
+
+  jose@5.9.6:
+    resolution: {integrity: sha512-AMlnetc9+CV9asI19zHmrgS/WYsWUwCn2R7RzlbJWD7F9eWYUTGyBmU9o6PxngtLGOiDGPRu+Uc4fhKzbpteZQ==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -5052,6 +5061,8 @@ snapshots:
       '@pkgjs/parseargs': 0.11.0
 
   jiti@1.21.6: {}
+
+  jose@5.9.6: {}
 
   js-tokens@4.0.0: {}
 

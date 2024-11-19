@@ -26,15 +26,15 @@ app.register(fastifySwagger, {
     info: {
       title: 'Migos | API Specs',
       description: 'API documentation for Migos',
-      version: '1.0.0',
+      version: '0.0.0',
     },
     components: {
       securitySchemes: {
-        // bearerAuth: {
-        //   type: 'http',
-        //   scheme: 'bearer',
-        //   bearerFormat: 'JWT',
-        // },
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
       },
     },
   },
