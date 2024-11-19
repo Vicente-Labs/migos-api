@@ -1,0 +1,22 @@
+{
+  "name": "@migos/auth",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "devDependencies": {
+    "@migos/eslint-config": "workspace:*",
+    "@migos/prettier": "workspace:*",
+    "@migos/tsconfig": "workspace:*"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@migos/eslint-config/library"
+    ]
+  },
+  "prettier": "@migos/prettier",
+  "dependencies": {
+    "@casl/ability": "^6.7.1",
+    "zod": "^3.22.5"
+  }
+}
