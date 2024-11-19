@@ -20,6 +20,7 @@ import { getAuthenticatedProfile } from './routes/geral/get-authenticated-profil
 import { getProfile } from './routes/geral/get-profile'
 import { createGroup } from './routes/group/create-group'
 import { deleteGroup } from './routes/group/delete-group'
+import { fetchGroups } from './routes/group/fetch-groups'
 import { transferGroupOwnership } from './routes/group/transfer-group-ownership'
 import { updateDescription } from './routes/group/update-description'
 
@@ -71,6 +72,7 @@ app.register(createGroup)
 app.register(deleteGroup)
 app.register(updateDescription)
 app.register(transferGroupOwnership)
+app.register(fetchGroups)
 
 app
   .listen({
