@@ -16,6 +16,7 @@ import { errorHandler } from './error-handler'
 import { authenticateWithPassword } from './routes/auth/authenticate-with-password'
 import { registerAccountWithGoogle } from './routes/auth/register-account-with-google'
 import { registerAccountWithPassword } from './routes/auth/register-account-with-password'
+import { getAuthenticatedProfile } from './routes/geral/get-authenticated-profile'
 import { getProfile } from './routes/geral/get-profile'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -59,6 +60,7 @@ app.register(registerAccountWithPassword)
 app.register(registerAccountWithGoogle)
 app.register(authenticateWithPassword)
 
+app.register(getAuthenticatedProfile)
 app.register(getProfile)
 
 app
