@@ -12,6 +12,7 @@ export default {
       fontFamily: {
         poppins: ['var(--font-poppins)'],
         inter: ['var(--font-inter)'],
+        cooperBlack: ['var(--font-cooper-black)'],
       },
       colors: {
         background: 'hsl(var(--background))',

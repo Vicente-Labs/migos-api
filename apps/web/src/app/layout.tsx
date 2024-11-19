@@ -2,6 +2,7 @@ import './globals.css'
 
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
+import localFont from 'next/font/local'
 
 import Header from '@/components/header'
 
@@ -14,6 +15,11 @@ const poppins = Poppins({
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
+})
+
+const cooperBlack = localFont({
+  src: './fonts/coopbl.ttf',
+  variable: '--font-cooper-black',
 })
 
 export const metadata: Metadata = {
@@ -29,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${inter.variable} m-10 antialiased`}
+        className={`${poppins.variable} ${inter.variable} ${cooperBlack.variable} m-10 antialiased`}
       >
         <Header />
         {children}

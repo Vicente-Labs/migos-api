@@ -1,15 +1,34 @@
+'use client'
+
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 import { Button } from './ui/button'
 
 export default function Header() {
   return (
-    <header className="flex items-center justify-between font-poppins">
-      <Link href="/" className="text-3xl font-semibold">
-        migos
-      </Link>
+    <motion.header
+      className="flex items-center justify-between font-poppins"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, delay: 0.3 }}
+    >
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
+        <Link href="/" className="text-3xl font-semibold">
+          migos
+        </Link>
+      </motion.div>
 
-      <div className="flex items-center gap-4 text-xl font-medium">
+      <motion.div
+        className="flex items-center gap-4 text-xl font-medium"
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
         <ul className="flex items-center gap-4">
           <li>
             <Link href="#about-us">about us</Link>
@@ -25,7 +44,7 @@ export default function Header() {
           <Link href="/sign-up">sign up</Link>
           <Button className="px-6 py-0.5 text-xl font-medium">sign in</Button>
         </div>
-      </div>
-    </header>
+      </motion.div>
+    </motion.header>
   )
 }
