@@ -3,6 +3,8 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
 
+import Header from '@/components/header'
+
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
@@ -26,7 +28,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} ${inter.variable} antialiased`}>
+      <body
+        className={`${poppins.variable} ${inter.variable} m-10 antialiased`}
+      >
+        <Header />
         {children}
       </body>
     </html>
