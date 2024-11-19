@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: migos_db
+    image: bitnami/postgresql:latest
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: migos
+    ports:
+      - 5432:5432

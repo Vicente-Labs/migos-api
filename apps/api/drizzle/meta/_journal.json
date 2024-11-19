@@ -1,0 +1,83 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1732032865697,
+      "tag": "20241119161425_add-users-db-structure",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1732032965381,
+      "tag": "20241119161605_add-groups-db-structure",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1732033085514,
+      "tag": "20241119161805_owner-id-cannot-be-null",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1732033543900,
+      "tag": "20241119162543_add-members-to-groups",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1732033634455,
+      "tag": "20241119162714_add-members",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1732033889403,
+      "tag": "20241119163129_add-users-to-member",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1732033995053,
+      "tag": "20241119163315_idk",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1732034041099,
+      "tag": "20241119163401_remove-phone",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1732034306147,
+      "tag": "20241119163826_add-invites",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1732034388296,
+      "tag": "20241119163948_add-role-and-gift-tip-to-member",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1732034454826,
+      "tag": "20241119164054_remove-unnecessary-coloumn",
+      "breakpoints": true
+    }
+  ]
+}
