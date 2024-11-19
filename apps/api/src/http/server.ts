@@ -21,6 +21,7 @@ import { getProfile } from './routes/geral/get-profile'
 import { createGroup } from './routes/group/create-group'
 import { deleteGroup } from './routes/group/delete-group'
 import { fetchGroups } from './routes/group/fetch-groups'
+import { getGroup } from './routes/group/get-group'
 import { transferGroupOwnership } from './routes/group/transfer-group-ownership'
 import { updateDescription } from './routes/group/update-description'
 
@@ -73,6 +74,7 @@ app.register(deleteGroup)
 app.register(updateDescription)
 app.register(transferGroupOwnership)
 app.register(fetchGroups)
+app.register(getGroup)
 
 app
   .listen({
