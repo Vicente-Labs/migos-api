@@ -20,6 +20,7 @@ import { getAuthenticatedProfile } from './routes/geral/get-authenticated-profil
 import { getProfile } from './routes/geral/get-profile'
 import { createGroup } from './routes/group/create-group'
 import { deleteGroup } from './routes/group/delete-group'
+import { transferGroupOwnership } from './routes/group/transfer-group-ownership'
 import { updateDescription } from './routes/group/update-description'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -69,6 +70,8 @@ app.register(getProfile)
 app.register(createGroup)
 app.register(deleteGroup)
 app.register(updateDescription)
+app.register(transferGroupOwnership)
+
 app
   .listen({
     host: '0.0.0.0',
