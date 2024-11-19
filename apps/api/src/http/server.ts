@@ -23,6 +23,7 @@ import { deleteGroup } from './routes/group/delete-group'
 import { fetchGroups } from './routes/group/fetch-groups'
 import { generateMatches } from './routes/group/generate-matches'
 import { getGroup } from './routes/group/get-group'
+import { getMyMatch } from './routes/group/get-my-match'
 import { transferGroupOwnership } from './routes/group/transfer-group-ownership'
 import { updateDescription } from './routes/group/update-description'
 
@@ -77,6 +78,7 @@ app.register(transferGroupOwnership)
 app.register(fetchGroups)
 app.register(getGroup)
 app.register(generateMatches)
+app.register(getMyMatch)
 
 app
   .listen({
