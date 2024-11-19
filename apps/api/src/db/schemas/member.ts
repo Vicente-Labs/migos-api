@@ -11,11 +11,16 @@ export const member = pgTable('member', {
 
   role: memberRole('role').notNull().default('MEMBER'),
   giftTip: text('gift_tip'),
+  matchId: text('match_id').references(() => users.id),
 })
 
 export const memberRelations = relations(member, ({ one }) => ({
   group: one(groups, {
     fields: [member.groupId],
     references: [groups.id],
+  }),
+  match: one(users, {
+    fields: [member.matchId],
+    references: [users.id],
   }),
 }))
