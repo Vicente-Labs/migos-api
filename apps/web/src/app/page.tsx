@@ -94,6 +94,59 @@ export default function Home() {
           </Button>
         </motion.div>
       </motion.section>
+
+      <motion.section
+        id="about-us"
+        className="inline-flex items-start justify-between gap-[380px] px-20 py-24"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        viewport={{ once: true }}
+      >
+        <motion.div
+          className="flex flex-col gap-10"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <div className="flex flex-col gap-2">
+            <h1 className="text-5xl">Our mission</h1>
+            <span className="text-2xl text-[#848780]">
+              We were created to add <br />
+              practicity to yours xmas with:
+            </span>
+
+            <ul className="flex flex-col gap-2">
+              <li className="flex flex-row items-center gap-2 text-[#848780]">
+                <span className="text-4xl">•</span>
+                <span className="text-xl">Effortless Gift Matching</span>
+              </li>
+              <li className="flex flex-row items-center gap-2 text-[#848780]">
+                <span className="text-4xl">•</span>
+                <span className="text-xl">Organized Group Management</span>
+              </li>
+              <li className="flex flex-row items-center gap-2 text-[#848780]">
+                <span className="text-4xl">•</span>
+                <span className="text-xl">Fun and Engaging Features</span>
+              </li>
+            </ul>
+          </div>
+
+          <Button className="flex w-full flex-row items-center justify-center px-6 py-6 text-xl font-normal">
+            simplify my xmas
+          </Button>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <Image src="/bell.svg" alt="Bell" width={500} height={500} />
+        </motion.div>
+      </motion.section>
     </main>
   )
 }
