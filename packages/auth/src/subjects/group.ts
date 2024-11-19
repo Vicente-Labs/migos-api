@@ -9,6 +9,7 @@ export const groupSubject = z.tuple([
     z.literal('create'),
     z.literal('update'),
     z.literal('delete'),
+    z.literal('sort'),
     z.literal('transfer_ownership'),
   ]),
   z.union([z.literal('group'), groupSchema]),
