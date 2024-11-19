@@ -18,7 +18,8 @@ import { registerAccountWithGoogle } from './routes/auth/register-account-with-g
 import { registerAccountWithPassword } from './routes/auth/register-account-with-password'
 import { getAuthenticatedProfile } from './routes/geral/get-authenticated-profile'
 import { getProfile } from './routes/geral/get-profile'
-import { createGroup } from './routes/group/create-route'
+import { createGroup } from './routes/group/create-group'
+import { deleteGroup } from './routes/group/delete-group'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -65,6 +66,7 @@ app.register(getAuthenticatedProfile)
 app.register(getProfile)
 
 app.register(createGroup)
+app.register(deleteGroup)
 
 app
   .listen({

@@ -1,7 +1,10 @@
+import { and, eq, sql } from 'drizzle-orm'
 import type { FastifyInstance } from 'fastify'
 import fastifyPlugin from 'fastify-plugin'
 import * as jose from 'jose'
 
+import { db } from '@/db'
+import { groups, member } from '@/db/schemas'
 import { env } from '@/env'
 import { UnauthorizedError } from '@/http/_errors/unauthorized-error'
 
@@ -27,6 +30,39 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
       }
 
       return { sub: payload.sub }
+    }
+
+    req.getUserMembership = async (id: string) => {
+      const { sub: userId } = await req.getCurrentUserId()
+
+      const [queriedMember] = await db
+        .select({
+          group: {
+            id: groups.id,
+            name: groups.name,
+            description: groups.description,
+            budget: groups.budget,
+            avatarUrl: groups.avatarUrl,
+            updatedAt: groups.updatedAt,
+            createdAt: groups.createdAt,
+            ownerId: groups.ownerId,
+            isMember: sql<boolean>`${member.userId} = ${userId}`,
+          },
+          member: { role: member.role },
+        })
+        .from(member)
+        .where(and(eq(member.userId, userId), eq(member.groupId, id)))
+        .leftJoin(groups, eq(member.groupId, groups.id))
+
+      if (!queriedMember)
+        throw new UnauthorizedError(`you're not a member of this group.`)
+
+      return {
+        group: {
+          ...queriedMember.group,
+        },
+        membership: queriedMember.member.role,
+      }
     }
   })
 })

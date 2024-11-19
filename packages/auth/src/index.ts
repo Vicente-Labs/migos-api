@@ -12,6 +12,15 @@ import { groupSubject } from './subjects/group'
 import { inviteSubject } from './subjects/invite'
 import { userSubject } from './subjects/user'
 
+export * from './subjects/group'
+export * from './subjects/invite'
+export * from './subjects/user'
+
+export * from './role'
+
+export * from './models/group'
+export * from './models/user'
+
 const appAbilitiesSchema = z.union([
   userSubject,
   inviteSubject,
