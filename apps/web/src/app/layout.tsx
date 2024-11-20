@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${inter.variable} ${cooperBlack.variable} m-10 antialiased`}
+        className={`${poppins.variable} ${inter.variable} ${cooperBlack.variable} overflow-x-hidden antialiased`}
       >
         <Header />
         {children}
