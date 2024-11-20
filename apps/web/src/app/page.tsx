@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { CheckCircle2, XCircle } from 'lucide-react'
 import Image from 'next/image'
 
 import { Button } from '@/components/ui/button'
@@ -146,6 +147,105 @@ export default function Home() {
         >
           <Image src="/bell.svg" alt="Bell" width={500} height={500} />
         </motion.div>
+      </motion.section>
+
+      <motion.section
+        id="plans"
+        className="flex items-center justify-center gap-8 px-20 py-24"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+        viewport={{ once: true }}
+      >
+        <div className="flex h-[520px] w-[476px] flex-col gap-24 rounded-lg bg-primary p-14">
+          <div>
+            <div>
+              <h1 className="text-5xl text-background">Basic</h1>
+
+              <span className="text-8xl text-background">
+                $0 <span className="-ml-6 text-lg">/ forever</span>
+              </span>
+            </div>
+
+            <div className="flex flex-col text-background">
+              <ul>
+                <li className="flex flex-row items-center gap-2">
+                  <CheckCircle2 className="size-4" /> up to 2 groups
+                </li>
+
+                <li className="flex flex-row items-center gap-2">
+                  <CheckCircle2 className="size-4" /> up to 5 members per group
+                </li>
+
+                <li className="flex flex-row items-center gap-2 text-[#B8BBB3] line-through">
+                  <XCircle className="size-4" /> personalized announcements
+                </li>
+
+                <li className="flex flex-row items-center gap-2 text-[#B8BBB3] line-through">
+                  <XCircle className="size-4" /> calendar sync
+                </li>
+
+                <li className="flex flex-row items-center gap-2 text-[#B8BBB3] line-through">
+                  <XCircle className="size-4" /> gift suggestions
+                </li>
+
+                <li className="flex flex-row items-center gap-2 text-[#B8BBB3] line-through">
+                  <XCircle className="size-4" /> reroll
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <Button className="w-full border border-primary bg-background text-xl font-normal text-primary">
+            get started
+          </Button>
+        </div>
+
+        <div className="flex h-[520px] w-[476px] flex-col gap-24 rounded-lg bg-primary p-14">
+          <div>
+            <div>
+              <h1 className="text-5xl text-background">Pro</h1>
+
+              <span className="text-8xl text-background">
+                $6 <span className="-ml-6 text-lg">/ month</span>
+              </span>
+            </div>
+
+            <div className="flex flex-col text-background">
+              <ul>
+                <li className="flex flex-row items-center gap-2">
+                  <CheckCircle2 className="size-4" />
+                  up to 7 groups
+                </li>
+
+                <li className="flex flex-row items-center gap-2">
+                  <CheckCircle2 className="size-4" /> unlimited members per
+                  group
+                </li>
+
+                <li className="flex flex-row items-center gap-2">
+                  <CheckCircle2 className="size-4" /> personalized announcements
+                </li>
+
+                <li className="flex flex-row items-center gap-2">
+                  <CheckCircle2 className="size-4" /> calendar sync
+                </li>
+
+                <li className="flex flex-row items-center gap-2">
+                  <CheckCircle2 className="size-4" /> gift suggestions
+                </li>
+
+                <li className="flex flex-row items-center gap-2">
+                  <CheckCircle2 className="size-4" /> reroll
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <Button className="w-full border border-primary bg-background text-xl font-normal text-primary">
+            get PRO
+          </Button>
+        </div>
       </motion.section>
     </main>
   )
