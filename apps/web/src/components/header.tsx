@@ -37,10 +37,26 @@ export default function Header() {
         >
           <ul className="flex items-center gap-4">
             <li>
-              <Link href="#about-us">about us</Link>
+              <Button
+                onClick={() => {
+                  document
+                    .getElementById('about-us')
+                    ?.scrollIntoView({ behavior: 'smooth' })
+                }}
+              >
+                about us
+              </Button>
             </li>
             <li>
-              <Link href="#about-us">plans</Link>
+              <Button
+                onClick={() => {
+                  document
+                    .getElementById('plans')
+                    ?.scrollIntoView({ behavior: 'smooth' })
+                }}
+              >
+                plans
+              </Button>
             </li>
           </ul>
 

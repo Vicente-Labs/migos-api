@@ -19,11 +19,27 @@ export function MobileHeaderDrawer({
           <DrawerTitle className="sr-only">migos</DrawerTitle>
         </DrawerHeader>
         <div className="-mt-10 flex h-28 flex-row items-center justify-center gap-4 text-xl">
-          <Button size="lg" variant="outline">
-            <Link href="/about">about us</Link>
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={() => {
+              document
+                .getElementById('about-us')
+                ?.scrollIntoView({ behavior: 'smooth' })
+            }}
+          >
+            about us
           </Button>
-          <Button size="lg" variant="outline">
-            <Link href="/contact">plans</Link>
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={() => {
+              document
+                .getElementById('plans')
+                ?.scrollIntoView({ behavior: 'smooth' })
+            }}
+          >
+            plans
           </Button>
 
           <Button size="lg" variant="outline">

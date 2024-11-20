@@ -40,7 +40,10 @@ export default function Home() {
           </div>
 
           <div className="w-1/2 lg:w-full">
-            <Button className="md:text-x2 flex w-full flex-row items-center justify-center px-4 py-4 text-sm md:px-6 md:py-6">
+            <Button
+              disabled
+              className="md:text-x2 flex w-full flex-row items-center justify-center px-4 py-4 text-sm md:px-6 md:py-6"
+            >
               start my secret santa
             </Button>
           </div>
@@ -107,7 +110,10 @@ export default function Home() {
           </div>
 
           <div className="w-1/2 lg:w-full">
-            <Button className="md:text-x2 flex w-full flex-row items-center justify-center px-4 py-4 text-sm md:px-6 md:py-6">
+            <Button
+              disabled
+              className="md:text-x2 flex w-full flex-row items-center justify-center px-4 py-4 text-sm md:px-6 md:py-6"
+            >
               let&apos;s do it
             </Button>
           </div>
@@ -159,7 +165,10 @@ export default function Home() {
           </div>
 
           <div className="w-1/2 lg:w-full">
-            <Button className="md:text-x2 flex w-full flex-row items-center justify-center px-4 py-4 text-sm md:px-6 md:py-6">
+            <Button
+              disabled
+              className="md:text-x2 flex w-full flex-row items-center justify-center px-4 py-4 text-sm md:px-6 md:py-6"
+            >
               simplify my xmas
             </Button>
           </div>
@@ -232,7 +241,10 @@ export default function Home() {
           </div>
 
           <div className="w-full">
-            <Button className="w-full border border-primary bg-background text-lg font-normal text-primary md:text-xl">
+            <Button
+              disabled
+              className="w-full border border-primary bg-background text-lg font-normal text-primary md:text-xl"
+            >
               get started
             </Button>
           </div>
@@ -283,7 +295,10 @@ export default function Home() {
           </div>
 
           <div className="w-full">
-            <Button className="w-full border border-primary bg-background text-lg font-normal text-primary md:text-xl">
+            <Button
+              disabled
+              className="w-full border border-primary bg-background text-lg font-normal text-primary md:text-xl"
+            >
               get PRO
             </Button>
           </div>
