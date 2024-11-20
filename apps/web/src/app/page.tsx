@@ -192,7 +192,7 @@ export default function Home() {
 
       <motion.section
         id="plans"
-        className="flex flex-col items-center gap-8 px-4 py-12 md:flex-row md:px-8 lg:px-20 lg:py-24"
+        className="flex flex-col items-center gap-8 px-4 py-12 md:flex-row md:px-8 lg:flex-row lg:items-center lg:justify-center lg:px-20 lg:py-24"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.5 }}
@@ -297,7 +297,7 @@ export default function Home() {
           <div className="w-full">
             <Button
               disabled
-              className="w-full border border-primary bg-background text-lg font-normal text-primary md:text-xl"
+              className="w-full cursor-pointer border border-primary bg-background text-lg font-normal text-primary md:text-xl"
             >
               get PRO
             </Button>

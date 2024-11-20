@@ -38,6 +38,7 @@ export default function Header() {
           <ul className="flex items-center gap-4">
             <li>
               <Button
+                variant="outline"
                 onClick={() => {
                   document
                     .getElementById('about-us')
@@ -49,6 +50,7 @@ export default function Header() {
             </li>
             <li>
               <Button
+                variant="outline"
                 onClick={() => {
                   document
                     .getElementById('plans')
