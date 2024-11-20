@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/button'
 
 export default function Home() {
   return (
-    <main className="font-cooperBlack mt-8">
+    // eslint-disable-next-line prettier/prettier
+    <main className="mt-8 font-cooperBlack">
       <motion.section
         id="home"
         className="inline-flex items-start justify-between gap-[420px] px-20 py-24"
