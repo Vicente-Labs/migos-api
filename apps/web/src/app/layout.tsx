@@ -6,6 +6,7 @@ import localFont from 'next/font/local'
 
 import { Footer } from '@/components/footer'
 import Header from '@/components/header'
+import { Toaster } from '@/components/ui/sonner'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -38,6 +39,13 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${inter.variable} ${cooperBlack.variable} overflow-x-hidden antialiased`}
       >
+        <Toaster
+          richColors
+          closeButton
+          position="bottom-right"
+          expand={false}
+          theme="light"
+        />
         <Header />
         {children}
         <Footer />

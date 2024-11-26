@@ -39,6 +39,7 @@ export default function Header() {
             <li>
               <Button
                 variant="outline"
+                className="transition-all duration-300 hover:bg-primary/10"
                 onClick={() => {
                   document
                     .getElementById('about-us')
@@ -51,6 +52,7 @@ export default function Header() {
             <li>
               <Button
                 variant="outline"
+                className="transition-all duration-300 hover:bg-primary/10"
                 onClick={() => {
                   document
                     .getElementById('plans')
@@ -64,9 +66,16 @@ export default function Header() {
 
           <span className="size-[6px] rounded-full bg-[#4E4F4C]" />
 
-          <div className="flex items-center gap-2">
-            <Link href="/sign-up">sign up</Link>
-            <Button className="px-6 py-0.5 text-xl font-medium">sign in</Button>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/sign-up"
+              className="transition-all duration-300 hover:text-primary"
+            >
+              sign up
+            </Link>
+            <Button className="px-6 py-0.5 text-xl font-medium transition-all duration-300 hover:bg-primary/80">
+              sign in
+            </Button>
           </div>
         </motion.div>
       </motion.header>
