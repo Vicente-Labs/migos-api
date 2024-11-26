@@ -1,10 +1,16 @@
+'use client'
+
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { toast } from 'sonner'
 
+import { useLanguage } from '@/context/language'
+
 import { Button } from '../ui/button'
 
 export function PaperworkSection() {
+  const { dictionary } = useLanguage()
+
   return (
     <motion.section
       id="paperwork"
@@ -38,14 +44,11 @@ export function PaperworkSection() {
         viewport={{ once: true }}
       >
         <div className="flex flex-col gap-2">
-          <h1 className="text-4xl md:text-5xl">
-            Put the <br />
-            papework aside
+          <h1 className="max-w-sm break-words text-4xl md:text-5xl">
+            {dictionary.putThePaperworkAside}
           </h1>
-          <span className="text-xl text-[#848780] md:text-2xl">
-            Let us with the boring part <br />
-            and make your <br />
-            xmas better
+          <span className="max-w-md break-words text-xl text-[#848780] md:text-2xl">
+            {dictionary.letUsWithTheBoringPart}
           </span>
         </div>
 
@@ -56,7 +59,7 @@ export function PaperworkSection() {
             }}
             className="md:text-x2 flex w-full flex-row items-center justify-center px-4 py-4 text-sm md:px-6 md:py-6"
           >
-            let&apos;s do it
+            {dictionary.letsDoIt}
           </Button>
         </div>
       </motion.div>

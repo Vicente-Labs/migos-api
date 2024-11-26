@@ -1,10 +1,16 @@
+'use client'
+
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { toast } from 'sonner'
 
+import { useLanguage } from '@/context/language'
+
 import { Button } from '../ui/button'
 
 export function OurMissionSection() {
+  const { dictionary } = useLanguage()
+
   return (
     <motion.section
       id="about-us"
@@ -22,29 +28,28 @@ export function OurMissionSection() {
         viewport={{ once: true }}
       >
         <div className="flex flex-col gap-2">
-          <h1 className="text-4xl md:text-5xl">Our mission</h1>
-          <span className="text-xl text-[#848780] md:text-2xl">
-            We were created to add <br />
-            practicity to yours xmas with:
+          <h1 className="text-4xl md:text-5xl">{dictionary.ourMission}</h1>
+          <span className="max-w-md text-xl text-[#848780] md:text-2xl">
+            {dictionary.weWereCreatedToAddPracticalityToYourXmasWith}
           </span>
 
           <ul className="flex flex-col gap-2">
             <li className="flex flex-row items-center gap-2 text-[#848780]">
               <span className="text-4xl">•</span>
               <span className="text-lg md:text-xl">
-                Effortless Gift Matching
+                {dictionary.effortlessGiftMatching}
               </span>
             </li>
             <li className="flex flex-row items-center gap-2 text-[#848780]">
               <span className="text-4xl">•</span>
               <span className="text-lg md:text-xl">
-                Organized Group Management
+                {dictionary.organizedGroupManagement}
               </span>
             </li>
             <li className="flex flex-row items-center gap-2 text-[#848780]">
               <span className="text-4xl">•</span>
               <span className="text-lg md:text-xl">
-                Fun and Engaging Features
+                {dictionary.funAndEngagingFeatures}
               </span>
             </li>
           </ul>
@@ -57,7 +62,7 @@ export function OurMissionSection() {
             }}
             className="md:text-x2 flex w-full flex-row items-center justify-center px-4 py-4 text-sm md:px-6 md:py-6"
           >
-            simplify my xmas
+            {dictionary.simplifyMyXmas}
           </Button>
         </div>
       </motion.div>

@@ -4,9 +4,9 @@ import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
 import localFont from 'next/font/local'
 
-import { Footer } from '@/components/footer'
-import Header from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
+import { cn } from '@/lib/utils'
+import type { Language } from '@/types/languages'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -29,16 +29,28 @@ export const metadata: Metadata = {
   description: 'Migos - The best way to manage your Secret Santa',
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode
-}>) {
+  params: Promise<{ lang: string }>
+}
+
+export default async function RootLayout({
+  children,
+  params,
+}: RootLayoutProps) {
+  const resolvedParams = await params
+  const lang = resolvedParams.lang as Language
+
   return (
-    <html lang="en">
-      <body
-        className={`${poppins.variable} ${inter.variable} ${cooperBlack.variable} overflow-x-hidden antialiased`}
-      >
+    <html
+      lang={lang}
+      suppressHydrationWarning
+      className={cn(poppins.variable, inter.variable, cooperBlack.variable)}
+    >
+      <head>
+        <meta name="theme-color" content="#f8ffed" />
+      </head>
+      <body className="overflow-x-hidden antialiased">
         <Toaster
           richColors
           closeButton
@@ -46,9 +58,7 @@ export default function RootLayout({
           expand={false}
           theme="light"
         />
-        <Header />
         {children}
-        <Footer />
       </body>
     </html>
   )

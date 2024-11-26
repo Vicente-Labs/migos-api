@@ -4,9 +4,13 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { toast } from 'sonner'
 
+import { useLanguage } from '@/context/language'
+
 import { Button } from '../ui/button'
 
 export function CTASection() {
+  const { dictionary } = useLanguage()
+
   return (
     <motion.section
       id="home"
@@ -24,16 +28,15 @@ export function CTASection() {
         viewport={{ once: true }}
       >
         <div className="flex flex-col gap-2">
-          <h1 className="text-4xl md:text-5xl">
-            Ho Ho Ho, <br />
-            Santa is Back
+          <h1 className="max-w-sm break-words text-4xl md:text-5xl">
+            {dictionary.hohoho}, <br />
+            {dictionary.santaIsBack}
           </h1>
-          <span className="text-xl text-[#848780] md:text-2xl">
-            Migos is ready to help your <br /> group of friends to do your{' '}
-            <br /> Secret Santa!
+          <span className="max-w-lg break-words text-xl text-[#848780] md:text-2xl">
+            {dictionary.migosIsReadyToHelp}
           </span>
-          <span className="text-xl text-[#848780] md:text-2xl">
-            What &apos;bout you?
+          <span className="max-w-lg break-words text-xl text-[#848780] md:text-2xl">
+            {dictionary.whatAboutYou}
           </span>
         </div>
 
@@ -44,7 +47,7 @@ export function CTASection() {
             }}
             className="md:text-x2 flex w-full flex-row items-center justify-center px-4 py-4 text-sm md:px-6 md:py-6"
           >
-            start my secret santa
+            {dictionary.startMySecretSanta}
           </Button>
         </div>
       </motion.div>
