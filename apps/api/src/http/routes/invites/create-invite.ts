@@ -17,6 +17,7 @@ export async function createInvite(app: FastifyInstance) {
       {
         schema: {
           tags: ['invites'],
+          summary: 'Create a group invite',
           params: z.object({
             groupId: z.string().uuid(),
           }),
@@ -24,6 +25,14 @@ export async function createInvite(app: FastifyInstance) {
             name: z.string(),
             email: z.string().email(),
           }),
+          response: {
+            201: z.object({
+              message: z.literal('invite created successfully'),
+              inviteId: z.string(),
+              name: z.string(),
+              email: z.string().email(),
+            }),
+          },
         },
       },
       async (req, res) => {
@@ -56,6 +65,7 @@ export async function createInvite(app: FastifyInstance) {
         handled in the front end */
 
         return res.status(201).send({
+          message: 'invite created successfully',
           inviteId: invite.id,
           name,
           email: email.toLowerCase(),

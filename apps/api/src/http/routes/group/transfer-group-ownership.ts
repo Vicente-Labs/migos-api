@@ -19,9 +19,25 @@ export async function transferGroupOwnership(app: FastifyInstance) {
       {
         schema: {
           tags: ['group'],
+          summary: 'Transfer group ownership',
           params: z.object({
             groupId: z.string(),
           }),
+          response: {
+            200: z.object({
+              message: z.literal('group ownership transferred successfully'),
+            }),
+            401: z.object({
+              message: z.tuple([
+                z.literal('you are not allowed to transfer ownership'),
+                z.literal(`you're not a member of this group.`),
+                z.literal('group name is required.'),
+              ]),
+            }),
+            500: z.object({
+              message: z.string(),
+            }),
+          },
         },
       },
       async (req, res) => {

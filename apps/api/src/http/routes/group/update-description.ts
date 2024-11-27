@@ -19,12 +19,30 @@ export async function updateDescription(app: FastifyInstance) {
       {
         schema: {
           tags: ['group'],
+          summary: 'Update group description',
           params: z.object({
             groupId: z.string(),
           }),
           body: z.object({
             description: z.string(),
           }),
+          response: {
+            204: z.object({
+              message: z.literal('group description updated successfully'),
+            }),
+            401: z.object({
+              message: z.tuple([
+                z.literal(
+                  'you are not allowed to update this group description',
+                ),
+                z.literal(`you're not a member of this group.`),
+                z.literal('group name is required.'),
+              ]),
+            }),
+            500: z.object({
+              message: z.string(),
+            }),
+          },
         },
       },
       async (req, res) => {
@@ -52,7 +70,9 @@ export async function updateDescription(app: FastifyInstance) {
           .set({ description })
           .where(eq(groups.id, groupId))
 
-        return res.status(204).send()
+        return res.status(200).send({
+          message: 'group description updated successfully',
+        })
       },
     )
 }

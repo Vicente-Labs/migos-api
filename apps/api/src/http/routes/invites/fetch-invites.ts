@@ -9,6 +9,16 @@ import { UnauthorizedError } from '@/http/_errors/unauthorized-error'
 import { auth } from '@/http/middlewares/auth'
 import { getUserPermissions } from '@/utils/get-user-permissions'
 
+const inviteSchema = z.object({
+  id: z.string(),
+  email: z.string().nullable(),
+  updatedAt: z.date(),
+  createdAt: z.date(),
+  status: z.enum(['PENDING', 'ACCEPTED', 'REJECTED']),
+  inviterId: z.string(),
+  groupId: z.string(),
+})
+
 export async function fetchInvites(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
@@ -18,9 +28,25 @@ export async function fetchInvites(app: FastifyInstance) {
       {
         schema: {
           tags: ['invite'],
+          summary: 'Fetch group invites',
           params: z.object({
             groupId: z.string(),
           }),
+          response: {
+            200: z.object({
+              message: z.literal('invites fetched successfully'),
+              invites: inviteSchema.array(),
+            }),
+            400: z.object({
+              message: z.literal(`you're not allowed to get group invites`),
+            }),
+            401: z.object({
+              message: z.tuple([
+                z.literal('missing auth token.'),
+                z.literal('invalid auth token.'),
+              ]),
+            }),
+          },
         },
       },
       async (req, res) => {
@@ -38,7 +64,10 @@ export async function fetchInvites(app: FastifyInstance) {
           .from(invites)
           .where(eq(invites.groupId, groupId))
 
-        return res.status(200).send({ invites: queriedInvites })
+        return res.status(200).send({
+          message: 'invites fetched successfully',
+          invites: queriedInvites,
+        })
       },
     )
 }

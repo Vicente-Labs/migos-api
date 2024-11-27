@@ -11,6 +11,14 @@ import { auth } from '@/http/middlewares/auth'
 import { getUserPermissions } from '@/utils/get-user-permissions'
 import { groupSchema } from '~/packages/auth/src'
 
+const matchSchema = z.object({
+  userId: z.string(),
+  name: z.string(),
+  email: z.string(),
+  avatarUrl: z.string().nullable(),
+  giftTip: z.string().nullable(),
+})
+
 export async function getMyMatch(app: FastifyInstance) {
   app
     .register(auth)
@@ -20,9 +28,16 @@ export async function getMyMatch(app: FastifyInstance) {
       {
         schema: {
           tags: ['group'],
+          summary: 'Get my match',
           params: z.object({
             groupId: z.string().uuid(),
           }),
+          response: {
+            200: z.object({
+              message: z.literal('match fetched successfully'),
+              match: matchSchema,
+            }),
+          },
         },
       },
       async (req, res) => {
@@ -45,7 +60,7 @@ export async function getMyMatch(app: FastifyInstance) {
             'You are not authorized to view your match.',
           )
 
-        const [match] = await db
+        const match = await db
           .select({
             userId: users.id,
             name: users.name,
@@ -58,24 +73,36 @@ export async function getMyMatch(app: FastifyInstance) {
 
         if (
           !match ||
-          !match.userId ||
-          !match.name ||
-          !match.email ||
-          !match.avatarUrl
+          match.length <= 0 ||
+          !match[0].userId ||
+          !match[0].name ||
+          !match[0].email ||
+          !match[0].avatarUrl
         )
           throw new NotFoundError('the group has not generated any matches yet')
 
-        const [matchMember] = await db
+        const matchMember = await db
           .select()
           .from(member)
-          .where(and(eq(groups.id, groupId), eq(member.userId, match.userId)))
+          .where(
+            and(eq(groups.id, groupId), eq(member.userId, match[0].userId)),
+          )
 
-        const completeMatch = {
-          ...match,
-          giftTip: matchMember?.giftTip || null,
-        }
+        if (!matchMember || matchMember.length <= 0)
+          throw new NotFoundError('the group has not generated any matches yet')
 
-        return res.status(200).send({ match: completeMatch })
+        const completeMatch = matchSchema.parse({
+          userId: match[0].userId,
+          name: match[0].name,
+          email: match[0].email,
+          avatarUrl: match[0].avatarUrl,
+          giftTip: matchMember[0].giftTip,
+        })
+
+        return res.status(200).send({
+          message: 'match fetched successfully',
+          match: completeMatch,
+        })
       },
     )
 }

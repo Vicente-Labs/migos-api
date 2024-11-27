@@ -17,9 +17,28 @@ export async function acceptInvite(app: FastifyInstance) {
       {
         schema: {
           tags: ['invite'],
+          summary: 'Accept a group invite',
           params: z.object({
             inviteId: z.string().uuid(),
           }),
+          response: {
+            201: z.object({
+              message: z.literal('invite accepted successfully'),
+              groupId: z.string(),
+            }),
+            400: z.object({
+              message: z.tuple([
+                z.literal(`invite not found or expired`),
+                z.literal('this invite belongs to another user'),
+              ]),
+            }),
+            401: z.object({
+              message: z.tuple([
+                z.literal('missing auth token.'),
+                z.literal('invalid auth token.'),
+              ]),
+            }),
+          },
         },
       },
       async (req, res) => {
@@ -50,6 +69,7 @@ export async function acceptInvite(app: FastifyInstance) {
         })
 
         return res.status(201).send({
+          message: 'invite accepted successfully',
           groupId: invite.groupId,
         })
       },

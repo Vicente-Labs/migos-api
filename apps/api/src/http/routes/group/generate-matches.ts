@@ -21,9 +21,31 @@ export async function generateMatches(app: FastifyInstance) {
       {
         schema: {
           tags: ['group'],
+          summary: 'Generate matches',
           params: z.object({
             groupId: z.string().uuid(),
           }),
+          response: {
+            204: z.object({
+              message: z.literal('matches generated successfully'),
+            }),
+            400: z.object({
+              message: z.tuple([
+                z.literal('group must have at least 2 members'),
+                z.literal('number of members must be a even number'),
+              ]),
+            }),
+            401: z.object({
+              message: z.tuple([
+                z.literal('you are not able to perform this action'),
+                z.literal('missing auth token'),
+                z.literal('invalid auth token'),
+              ]),
+            }),
+            500: z.object({
+              message: z.string(),
+            }),
+          },
         },
       },
       async (req, res) => {
@@ -70,7 +92,9 @@ export async function generateMatches(app: FastifyInstance) {
           await Promise.all(updates)
         })
 
-        return res.status(204).send()
+        return res.status(200).send({
+          message: 'matches generated successfully',
+        })
       },
     )
 }

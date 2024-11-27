@@ -15,12 +15,27 @@ export async function createGroup(app: FastifyInstance) {
       {
         schema: {
           tags: ['group'],
+          summary: 'Create a group',
           body: z.object({
             name: z.string(),
             description: z.string().optional(),
             budget: z.coerce.number(),
             avatarUrl: z.string().optional(),
           }),
+          response: {
+            201: z.object({
+              message: z.literal('group created successfully'),
+            }),
+            401: z.object({
+              message: z.tuple([
+                z.literal('missing auth token'),
+                z.literal('invalid auth token'),
+              ]),
+            }),
+            500: z.object({
+              message: z.string(),
+            }),
+          },
         },
       },
       async (req, res) => {
@@ -28,7 +43,7 @@ export async function createGroup(app: FastifyInstance) {
 
         const { name, description, budget, avatarUrl } = req.body
 
-        const [group] = await db
+        await db
           .insert(groups)
           .values({
             name,
@@ -39,10 +54,9 @@ export async function createGroup(app: FastifyInstance) {
           })
           .returning({ id: groups.id })
 
-        if (!group)
-          throw new Error('An error occurred while creating the group')
-
-        return res.status(201).send({ groupId: group.id })
+        return res.status(201).send({
+          message: 'group created successfully',
+        })
       },
     )
 }

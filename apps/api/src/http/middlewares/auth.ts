@@ -12,7 +12,7 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
   app.addHook('preHandler', async (req) => {
     req.getCurrentUserId = async () => {
       if (!req.headers.authorization) {
-        throw new UnauthorizedError('Missing auth token.')
+        throw new UnauthorizedError('missing auth token.')
       }
 
       const token = req.headers.authorization
@@ -26,7 +26,7 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
       })
 
       if (!payload.sub) {
-        throw new UnauthorizedError('Invalid token.')
+        throw new UnauthorizedError('invalid token.')
       }
 
       return { sub: payload.sub }
@@ -54,12 +54,25 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
         .where(and(eq(member.userId, userId), eq(member.groupId, id)))
         .leftJoin(groups, eq(member.groupId, groups.id))
 
-      if (!queriedMember)
+      if (!queriedMember) {
         throw new UnauthorizedError(`you're not a member of this group.`)
+      }
+
+      const group = queriedMember.group
+      if (!group || !group.name) {
+        throw new UnauthorizedError(`group name is required.`)
+      }
 
       return {
         group: {
-          ...queriedMember.group,
+          id: group.id,
+          name: group.name,
+          budget: group.budget,
+          ownerId: group.ownerId,
+          description: group.description,
+          avatarUrl: group.avatarUrl,
+          updatedAt: group.updatedAt,
+          createdAt: group.createdAt,
         },
         membership: queriedMember.member.role,
       }

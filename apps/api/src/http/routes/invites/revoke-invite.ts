@@ -19,10 +19,28 @@ export async function revokeInvite(app: FastifyInstance) {
       {
         schema: {
           tags: ['invite'],
+          summary: 'Revoke invite',
           params: z.object({
             groupId: z.string(),
             inviteId: z.string().uuid(),
           }),
+          response: {
+            201: z.object({
+              message: z.literal('Invite successfully revoked'),
+            }),
+            400: z.object({
+              message: z.tuple([
+                z.literal(`you're not allowed to revoke invites`),
+                z.literal('invite not found or already accepted'),
+              ]),
+            }),
+            401: z.object({
+              message: z.tuple([
+                z.literal('missing auth token.'),
+                z.literal('invalid auth token.'),
+              ]),
+            }),
+          },
         },
       },
       async (req, res) => {
@@ -45,7 +63,7 @@ export async function revokeInvite(app: FastifyInstance) {
 
         await db.delete(invites).where(eq(invites.id, inviteId))
 
-        return res.status(204).send()
+        return res.status(201).send({ message: 'Invite successfully revoked' })
       },
     )
 }

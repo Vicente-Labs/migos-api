@@ -8,7 +8,7 @@ declare module 'fastify' {
   export interface FastifyRequest {
     getCurrentUserId(): Promise<{ sub: string }>
     getUserMembership(id: string): Promise<{
-      group: typeof groups.$inferInsert
+      group: typeof groups.$inferSelect
       membership: Role
     }>
   }

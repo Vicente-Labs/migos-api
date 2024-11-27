@@ -19,9 +19,28 @@ export async function deleteGroup(app: FastifyInstance) {
       {
         schema: {
           tags: ['group'],
+          summary: 'Delete a group',
           params: z.object({
             groupId: z.string(),
           }),
+          response: {
+            200: z.object({
+              message: z.literal('group deleted successfully'),
+            }),
+            400: z.object({
+              message: z.string(),
+            }),
+            401: z.object({
+              message: z.tuple([
+                z.literal('You are not allowed to delete this group'),
+                z.literal('missing auth token'),
+                z.literal('invalid auth token'),
+              ]),
+            }),
+            500: z.object({
+              message: z.string(),
+            }),
+          },
         },
       },
       async (req, res) => {
