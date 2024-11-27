@@ -8,6 +8,7 @@ const envSchema = z.object({
   GOOGLE_CLIENT_SECRET: z.string(),
   GOOGLE_REDIRECT_URI: z.string().url(),
   FRONTEND_URL: z.string().url(),
+  HOST: z.string().default('0.0.0.0'),
 })
 
 export const env = envSchema.parse(process.env)

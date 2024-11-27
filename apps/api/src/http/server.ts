@@ -33,7 +33,17 @@ import { getPendingInvites } from './routes/invites/fetch-pending-invites'
 import { getInvite } from './routes/invites/get-invite'
 import { revokeInvite } from './routes/invites/revoke-invite'
 
-const app = fastify().withTypeProvider<ZodTypeProvider>()
+const app = fastify({
+  logger: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: 'HH:MM:ss Z',
+        ignore: 'pid,hostname',
+      },
+    },
+  },
+}).withTypeProvider<ZodTypeProvider>()
 
 app.setSerializerCompiler(serializerCompiler)
 app.setValidatorCompiler(validatorCompiler)
@@ -42,6 +52,7 @@ app.setErrorHandler(errorHandler)
 
 app.register(fastifySwagger, {
   openapi: {
+    servers: [{ url: 'http://localhost:3000' }],
     info: {
       title: 'Migos | API Specs',
       description: 'API documentation for Migos',
@@ -93,9 +104,7 @@ app.register(revokeInvite)
 app.register(getPendingInvites)
 app.register(getInvite)
 
-app
-  .listen({
-    host: '0.0.0.0',
-    port: env.BACKEND_PORT,
-  })
-  .then(() => console.log('HTTP server is running!'))
+app.listen({
+  host: env.HOST,
+  port: env.BACKEND_PORT,
+})
