@@ -17,6 +17,7 @@ export * from './subjects/invite'
 export * from './subjects/user'
 
 export * from './role'
+export * from './plan'
 
 export * from './models/group'
 export * from './models/user'
