@@ -21,6 +21,9 @@ export const groups = pgTable('groups', {
     .references(() => users.id)
     .notNull(),
 
+  endDate: timestamp('end_date').notNull(),
+  drawDate: timestamp('draw_date'),
+
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
 })

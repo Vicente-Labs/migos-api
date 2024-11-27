@@ -46,6 +46,8 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
             updatedAt: groups.updatedAt,
             createdAt: groups.createdAt,
             ownerId: groups.ownerId,
+            endDate: groups.endDate,
+            drawDate: groups.drawDate,
             isMember: sql<boolean>`${member.userId} = ${userId}`,
           },
           member: { role: member.role },
@@ -73,6 +75,8 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
           avatarUrl: group.avatarUrl,
           updatedAt: group.updatedAt,
           createdAt: group.createdAt,
+          endDate: group.endDate,
+          drawDate: group.drawDate,
         },
         membership: queriedMember.member.role,
       }

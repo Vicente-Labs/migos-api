@@ -27,7 +27,7 @@ export async function fetchInvites(app: FastifyInstance) {
       '/groups/:groupId/invites',
       {
         schema: {
-          tags: ['invite'],
+          tags: ['invites'],
           summary: 'Fetch group invites',
           params: z.object({
             groupId: z.string(),

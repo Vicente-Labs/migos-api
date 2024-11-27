@@ -18,7 +18,7 @@ export async function revokeInvite(app: FastifyInstance) {
       '/groups/:groupId/invites/:inviteId/revoke',
       {
         schema: {
-          tags: ['invite'],
+          tags: ['invites'],
           summary: 'Revoke invite',
           params: z.object({
             groupId: z.string(),

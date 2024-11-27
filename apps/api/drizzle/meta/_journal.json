@@ -92,6 +92,13 @@
       "when": 1732042138182,
       "tag": "20241119184858_add-match-to-members",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1732737113569,
+      "tag": "20241127195153_add-user-plan-and-group-end-date-and-draw-date",
+      "breakpoints": true
     }
   ]
 }

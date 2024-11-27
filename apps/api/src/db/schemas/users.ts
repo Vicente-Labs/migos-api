@@ -2,6 +2,7 @@ import { createId } from '@paralleldrive/cuid2'
 import { pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 
 export const providerEnum = pgEnum('provider', ['GOOGLE'])
+export const planEnum = pgEnum('plan', ['BASIC', 'PRO'])
 
 export const users = pgTable('users', {
   id: text('id')
@@ -12,6 +13,8 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   passwordHash: text('password_hash'),
   avatarUrl: text('avatar_url'),
+
+  plan: planEnum('plan').notNull().default('BASIC'),
 
   provider: providerEnum('provider'),
   providerId: text('provider_id').unique(),
