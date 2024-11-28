@@ -1,9 +1,15 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import NumberFlow from '@number-flow/react'
+import { useMutation } from '@tanstack/react-query'
 import Autoplay from 'embla-carousel-autoplay'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { Loader2 } from 'lucide-react'
+import { type FormEvent, useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -21,12 +27,24 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { useLanguage } from '@/context/language'
+import { preRegister } from '@/http/auth/pre-register'
+import type { Dictionary } from '@/utils/dictionaries'
+
+const preRegisterFormSchema = (dictionary: Dictionary) =>
+  z.object({
+    email: z
+      .string()
+      .min(1, dictionary.emailRequired)
+      .email(dictionary.emailInvalid),
+  })
+
+type PreRegisterFormValues = z.infer<ReturnType<typeof preRegisterFormSchema>>
 
 export default function Home() {
-  const [days, setDays] = useState(0)
-  const [hours, setHours] = useState(0)
-  const [minutes, setMinutes] = useState(0)
-  const [seconds, setSeconds] = useState(0)
+  const [days, setDays] = useState<number>(0)
+  const [hours, setHours] = useState<number>(0)
+  const [minutes, setMinutes] = useState<number>(0)
+  const [seconds, setSeconds] = useState<number>(0)
 
   useEffect(() => {
     const targetDate = new Date('2024-12-07T12:00:00-03:00') // 12h Brasília time
@@ -63,6 +81,41 @@ export default function Home() {
   }, [days, hours, minutes, seconds])
 
   const { dictionary } = useLanguage()
+
+  const form = useForm<PreRegisterFormValues>({
+    resolver: zodResolver(preRegisterFormSchema(dictionary)),
+    defaultValues: {
+      email: '',
+    },
+  })
+
+  const { mutate: preRegisterMutation, isPending } = useMutation({
+    mutationFn: async (data: PreRegisterFormValues) => {
+      const { success, data: parsedData } =
+        preRegisterFormSchema(dictionary).safeParse(data)
+
+      if (!success) throw new Error('Invalid data')
+
+      return await preRegister({ dictionary, ...parsedData })
+    },
+    onSettled: () => {
+      form.reset()
+      toast.success(dictionary.preRegisterSuccess)
+    },
+  })
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    const form = e.currentTarget
+    const { success, data } = preRegisterFormSchema(dictionary).safeParse(
+      Object.fromEntries(new FormData(form)),
+    )
+
+    if (!success) return
+
+    preRegisterMutation(data)
+  }
 
   return (
     <motion.main
@@ -130,13 +183,25 @@ export default function Home() {
               <div className="text-base sm:text-xl">{dictionary.seconds}</div>
             </motion.div>
           </div>
-
-          <form className="mt-8 flex w-full max-w-md flex-col gap-4 px-4 sm:px-0">
-            <Input type="email" placeholder={dictionary.email} />
+          <form
+            onSubmit={handleSubmit}
+            className="mt-8 flex w-full max-w-md flex-col gap-4 px-4 sm:px-0"
+          >
+            <Input
+              type="email"
+              {...form.register('email')}
+              placeholder={dictionary.email}
+            />
             <TooltipProvider>
               <Tooltip delayDuration={30}>
                 <TooltipTrigger asChild>
-                  <Button type="submit">{dictionary.preRegister}</Button>
+                  <Button type="submit" disabled={isPending}>
+                    {isPending ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      dictionary.preRegister
+                    )}
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent
                   side="bottom"

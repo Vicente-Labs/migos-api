@@ -34,5 +34,16 @@
   "preRegister": "Pre-register",
   "email": "Email",
   "preRegisterCTA": "I've heard that who is pre-registering will get a 30% discount on their first month and a lifetime 10% discount afterwards, is that true?",
-  "mobilePreRegisterCTA": "I've heard that who is pre-registering will get a 30% discount on their first month and a lifetime 10% discount afterwards, and also has a lot more benefits for the early adopters, is that true?"
+  "mobilePreRegisterCTA": "I've heard that who is pre-registering will get a 30% discount on their first month and a lifetime 10% discount afterwards, and also has a lot more benefits for the early adopters, is that true?",
+  "preRegisterSuccess": "You have been successfully pre-registered!",
+  "emailRequired": "Email is required",
+  "emailInvalid": "Email is invalid",
+  "welcome": "Welcome to Migos! 👋",
+  "weAreExcitedToHaveYouJoinUs": "We're excited to have you join us at",
+  "weveReceivedYourPreRegistrationRequest": "We've received your pre-registration request. We'll notify you as soon as we're ready to welcome you aboard!",
+  "inTheMeantimeKeepAnEyeOnYourInboxAt": "In the meantime, keep an eye on your inbox at",
+  "weWillBeSendingYouImportantUpdatesAboutYourAccountStatus": "We'll be sending you important updates about your account status",
+  "thisIsAnAutomatedEmailPleaseDoNotReply": "This is an automated email. Please do not reply.",
+  "bestRegardsTheMigosTeam": "Best regards",
+  "theMigosTeam": "The Migos Team"
 }

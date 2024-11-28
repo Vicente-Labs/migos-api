@@ -99,6 +99,13 @@
       "when": 1732737113569,
       "tag": "20241127195153_add-user-plan-and-group-end-date-and-draw-date",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1732774465171,
+      "tag": "20241128061425_add-pre-register",
+      "breakpoints": true
     }
   ]
 }

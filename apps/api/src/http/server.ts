@@ -15,6 +15,7 @@ import { env } from '@/env'
 import { errorHandler } from './error-handler'
 import { authenticateWithGoogle } from './routes/auth/authenticate-with-google'
 import { authenticateWithPassword } from './routes/auth/authenticate-with-password'
+import { preRegisterRoute } from './routes/auth/pre-register'
 import { registerAccountWithGoogle } from './routes/auth/register-account-with-google'
 import { registerAccountWithPassword } from './routes/auth/register-account-with-password'
 import { getAuthenticatedProfile } from './routes/geral/get-authenticated-profile'
@@ -53,7 +54,7 @@ app.setErrorHandler(errorHandler)
 
 app.register(fastifySwagger, {
   openapi: {
-    servers: [{ url: 'http://localhost:3000' }],
+    servers: [{ url: 'https://api.migos.me' }],
     info: {
       title: 'Migos | API Specs',
       description: 'API documentation for Migos',
@@ -86,6 +87,7 @@ app.register(registerAccountWithPassword)
 app.register(registerAccountWithGoogle)
 app.register(authenticateWithPassword)
 app.register(authenticateWithGoogle)
+app.register(preRegisterRoute)
 
 app.register(getAuthenticatedProfile)
 app.register(getProfile)

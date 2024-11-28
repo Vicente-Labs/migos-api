@@ -7,7 +7,7 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
   GOOGLE_REDIRECT_URI: z.string().url(),
-  FRONTEND_URL: z.string().url(),
+  NEXT_PUBLIC_BASE_URL: z.string().url(),
   HOST: z.string().default('0.0.0.0'),
 })
 
