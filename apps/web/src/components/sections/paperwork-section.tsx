@@ -57,7 +57,7 @@ export function PaperworkSection() {
             onClick={() => {
               toast.error(`We're not launched yet.`)
             }}
-            className="md:text-x2 flex w-full flex-row items-center justify-center px-4 py-4 text-sm md:px-6 md:py-6"
+            className="flex w-full flex-row items-center justify-center px-4 py-4 text-sm md:px-6 md:py-6 md:text-xl"
           >
             {dictionary.letsDoIt}
           </Button>

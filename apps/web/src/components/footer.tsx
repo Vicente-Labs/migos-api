@@ -9,19 +9,19 @@ import { AnimatedLink } from './animated-link'
 export function Footer() {
   return (
     <motion.footer
-      className="m-10 flex items-center justify-between gap-4 font-poppins"
+      className="m-4 flex flex-col items-center justify-between gap-6 font-poppins md:m-10 md:flex-row md:gap-4"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
       viewport={{ once: true }}
     >
-      <div className="flex flex-col items-start gap-2 font-semibold">
+      <div className="flex flex-col items-center gap-2 font-semibold md:items-start">
         <span>migos</span>
-        <span>CNPJ: 99.999.999/9999-99</span>
       </div>
 
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex flex-col items-center justify-center gap-2 text-center md:flex-row md:text-left">
         <Link href="mailto:support@migos.vicentesan.dev">support</Link>
+        <span className="hidden md:inline">•</span>
         <span>•</span>
         <span className="flex flex-row items-center justify-center gap-2 text-primary">
           with <Heart className="size-4 text-primary" /> by{' '}

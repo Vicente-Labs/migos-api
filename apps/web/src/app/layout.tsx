@@ -50,7 +50,7 @@ export default async function RootLayout({
       <head>
         <meta name="theme-color" content="#f8ffed" />
       </head>
-      <body className="overflow-x-hidden antialiased">
+      <body className="text-smooth overflow-x-hidden antialiased">
         <Toaster
           richColors
           closeButton

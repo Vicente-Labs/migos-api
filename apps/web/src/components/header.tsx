@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
 
+import { useLanguage } from '@/context/language'
+
 import { MobileHeader } from './mobile-header'
 import { MobileHeaderDrawer } from './mobile-header-drawer'
 import { Button } from './ui/button'
@@ -11,10 +13,12 @@ import { Button } from './ui/button'
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
+  const { language } = useLanguage()
+
   return (
     <>
       <motion.header
-        className="m-10 hidden items-center justify-between font-poppins md:flex"
+        className="text-smooth m-10 hidden items-center justify-between font-poppins md:flex"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -47,6 +51,14 @@ export default function Header() {
                 }}
               >
                 about us
+              </Button>
+            </li>
+            <li>
+              <Button
+                variant="outline"
+                className="transition-all duration-300 hover:bg-primary/10"
+              >
+                <Link href={`/${language}/blog`}>blog</Link>
               </Button>
             </li>
             <li>

@@ -74,7 +74,7 @@ export function PricingSection() {
             onClick={() => {
               toast.error(`We're not launched yet.`)
             }}
-            className="w-full border border-primary bg-background text-lg font-normal text-primary md:text-xl"
+            className="w-full border border-primary bg-background text-lg font-bold text-primary hover:bg-background/90 md:text-xl"
           >
             {dictionary.getStarted}
           </Button>
@@ -136,7 +136,7 @@ export function PricingSection() {
             onClick={() => {
               toast.error(`We're not launched yet.`)
             }}
-            className="w-full cursor-pointer border border-primary bg-background text-lg font-normal text-primary md:text-xl"
+            className="w-full border border-primary bg-background text-lg font-bold text-primary hover:bg-background/90 md:text-xl"
           >
             {dictionary.getPro}
           </Button>
