@@ -12,15 +12,12 @@ import {
 } from '@/components/ui/breadcrumb'
 import type { Language } from '@/types/languages'
 
-interface BlogPostProps {
-  params: {
-    slug: string
-    lang: Language
-  }
+type BlogPostProps = {
+  params: Promise<{ lang: Language; slug: string }>
 }
 
 export default async function BlogPost({ params }: BlogPostProps) {
-  const { slug, lang } = params
+  const { slug, lang } = await params
   const filePath = path.join(
     process.cwd(),
     'src',
