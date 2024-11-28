@@ -15,14 +15,14 @@ export function Footer() {
       transition={{ duration: 0.5, delay: 0.3 }}
       viewport={{ once: true }}
     >
-      <div className="flex flex-col items-center gap-2 font-semibold md:items-start">
+      <div className="flex flex-col items-center gap-2 font-cooperBlack font-semibold md:items-start">
         <span>migos</span>
       </div>
 
       <div className="flex flex-col items-center justify-center gap-2 text-center md:flex-row md:text-left">
         <Link href="mailto:support@migos.vicentesan.dev">support</Link>
         <span className="hidden md:inline">•</span>
-        <span>•</span>
+        <span className="md:hidden">•</span>
         <span className="flex flex-row items-center justify-center gap-2 text-primary">
           with <Heart className="size-4 text-primary" /> by{' '}
           <AnimatedLink href="https://vicentesan.dev">
