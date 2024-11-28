@@ -30,14 +30,14 @@ export function PreRegisterTemplate({
       <Head />
       <Preview>{previewText}</Preview>
       <Tailwind>
-        <Body className="mx-auto my-auto bg-[#f6f9fc] font-poppins">
-          <Container className="mx-auto my-[40px] max-w-[465px] rounded-lg border border-solid border-[#f0f0f0] bg-white p-[20px] shadow-lg">
+        <Body className="cartoon-style mx-auto my-auto bg-[#f6f9fc] font-cooperBlack">
+          <Container className="cartoon-container mx-auto my-[40px] max-w-[465px] rounded-lg border border-solid border-[#f0f0f0] bg-white p-[20px] shadow-lg">
             <Section className="mt-[32px]">
               <Section className="mb-6 rounded-lg bg-primary/10 p-6">
-                <Text className="m-0 text-[16px] leading-[24px] text-foreground">
+                <Text className="cartoon-text m-0 text-[16px] leading-[24px] text-foreground">
                   {dictionary.welcome} 👋
                 </Text>
-                <Text className="mt-2 text-[14px] leading-[24px] text-muted-foreground">
+                <Text className="cartoon-subtext mt-2 text-[14px] leading-[24px] text-muted-foreground">
                   {dictionary.weAreExcitedToHaveYouJoinUs}
                   <Link
                     href={env.NEXT_PUBLIC_BASE_URL}

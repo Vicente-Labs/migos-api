@@ -57,3 +57,19 @@
     text-rendering: optimizeSpeed;
   }
 }
+
+.cartoon-style {
+  font-family: 'Cooper Black', sans-serif;
+}
+
+.cartoon-container {
+  font-family: 'Poppins', sans-serif;
+}
+
+.cartoon-text {
+  font-family: 'Cooper Black', sans-serif;
+}
+
+.cartoon-subtext {
+  font-family: 'Poppins', sans-serif;
+}
