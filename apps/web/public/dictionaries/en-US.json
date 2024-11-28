@@ -26,5 +26,11 @@
   "pro": "Pro",
   "upTo7Groups": "up to 7 groups",
   "unlimitedMembersPerGroup": "unlimited members per group",
-  "getPro": "get PRO"
+  "getPro": "get PRO",
+  "days": "Days",
+  "hours": "Hours",
+  "minutes": "Minutes",
+  "seconds": "Seconds",
+  "preRegister": "Pre-register",
+  "email": "Email"
 }
