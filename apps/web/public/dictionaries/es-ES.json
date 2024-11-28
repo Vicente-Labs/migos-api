@@ -45,5 +45,7 @@
   "weWillBeSendingYouImportantUpdatesAboutYourAccountStatus": "Te enviaremos actualizaciones importantes sobre el estado de tu cuenta",
   "thisIsAnAutomatedEmailPleaseDoNotReply": "Este es un correo electrónico automático. Por favor no responda.",
   "bestRegardsTheMigosTeam": "Saludos cordiales",
-  "theMigosTeam": "El Equipo de Migos"
+  "theMigosTeam": "El Equipo de Migos",
+  "preRegisterError": "Ocurrió un error al pre-registrar. Por favor, inténtelo de nuevo.",
+  "userAlreadyExists": "Usuario ya pre-registrado"
 }

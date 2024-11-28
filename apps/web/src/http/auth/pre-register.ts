@@ -12,13 +12,15 @@ interface PreRegisterRequest {
 }
 
 interface PreRegisterResponse {
-  message: 'User pre-registered successfully'
+  message: 'User pre-registered successfully' | 'User already exists'
 }
 
 export async function preRegister({ dictionary, email }: PreRegisterRequest) {
   const { message } = await api
     .post('users/pre-register', { json: { email } })
     .json<PreRegisterResponse>()
+
+  if (message === 'User already exists') throw new Error('User already exists')
 
   await resend.emails.send({
     from: 'Migos <onboarding@migos.me>',

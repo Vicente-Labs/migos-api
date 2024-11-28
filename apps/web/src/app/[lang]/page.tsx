@@ -98,10 +98,11 @@ export default function Home() {
 
       return await preRegister({ dictionary, ...parsedData })
     },
-    onSettled: () => {
+    onSuccess: () => {
       form.reset()
       toast.success(dictionary.preRegisterSuccess)
     },
+    onError: () => toast.error(dictionary.preRegisterError),
   })
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
