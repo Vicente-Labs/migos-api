@@ -11,6 +11,10 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+// import { CTASection } from '@/components/sections/cta-section'
+// import { OurMissionSection } from '@/components/sections/our-mission-section'
+// import { PaperworkSection } from '@/components/sections/paperwork-section'
+// import { PricingSection } from '@/components/sections/pricing-section'
 import { Button } from '@/components/ui/button'
 import {
   Carousel,
@@ -275,4 +279,16 @@ export default function Home() {
       </div>
     </motion.main>
   )
+
+  // return (
+  //   <main className="mt-8 font-cooperBlack">
+  //     <CTASection />
+
+  //     <PaperworkSection />
+
+  //     <OurMissionSection />
+
+  //     <PricingSection />
+  //   </main>
+  // )
 }
