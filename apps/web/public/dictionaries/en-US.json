@@ -32,5 +32,7 @@
   "minutes": "Minutes",
   "seconds": "Seconds",
   "preRegister": "Pre-register",
-  "email": "Email"
+  "email": "Email",
+  "preRegisterCTA": "I've heard that who is pre-registering will get a 30% discount on their first month and a lifetime 10% discount afterwards, is that true?",
+  "mobilePreRegisterCTA": "I've heard that who is pre-registering will get a 30% discount on their first month and a lifetime 10% discount afterwards, and also has a lot more benefits for the early adopters, is that true?"
 }

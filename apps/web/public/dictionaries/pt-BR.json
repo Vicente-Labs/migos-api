@@ -32,5 +32,7 @@
   "minutes": "Minutos",
   "seconds": "Segundos",
   "preRegister": "Pre-registrar",
-  "email": "E-mail"
+  "email": "E-mail",
+  "preRegisterCTA": "Eu ouvi que quem se pre-registrar vai ganhar um desconto de 30% na primeira mensalidade e um desconto de 10% pelo resto da vida, é verdade?",
+  "mobilePreRegisterCTA": "Eu ouvi que quem se pre-registrar vai ganhar um desconto de 30% na primeira mensalidade e um desconto de 10% pelo resto da vida, e também tem muitos mais benefícios para os usuários iniciais, é verdade?"
 }

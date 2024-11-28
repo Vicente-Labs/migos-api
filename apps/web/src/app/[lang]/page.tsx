@@ -143,17 +143,13 @@ export default function Home() {
                   align="center"
                   className="hidden max-w-md text-center font-poppins text-sm sm:text-base md:block"
                 >
-                  I've heard that who is pre-registering will get a 30% discount
-                  on their first month and a lifetime 10% discount afterwards,
-                  is that true?
+                  {dictionary.preRegisterCTA}
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
 
-            <span className="hidden max-w-md text-center font-poppins text-sm sm:text-base md:block">
-              I've heard that who is pre-registering will get a 30% discount on
-              their first month and a lifetime 10% discount afterwards, is that
-              true?
+            <span className="block max-w-md text-center font-poppins text-sm sm:text-base md:hidden">
+              {dictionary.mobilePreRegisterCTA}
             </span>
           </form>
         </div>
