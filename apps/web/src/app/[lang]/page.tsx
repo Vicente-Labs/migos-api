@@ -59,7 +59,7 @@ export default function Home() {
   const [minutes, setMinutes] = useState<number>(0)
   const [seconds, setSeconds] = useState<number>(0)
   const [showConfetti, setShowConfetti] = useState(false)
-  const [showDialog, setShowDialog] = useState(true)
+  const [showDialog, setShowDialog] = useState(false)
 
   useEffect(() => {
     const targetDate = new Date('2024-12-07T12:00:00-03:00') // 12h Brasília time
