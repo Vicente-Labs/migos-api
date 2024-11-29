@@ -1,5 +1,5 @@
 app = "migos-api"
-primary_region = "gru"
+primary_region = "bos"
 
 [build]
   ignorefile = "./docker-compose.yaml"
