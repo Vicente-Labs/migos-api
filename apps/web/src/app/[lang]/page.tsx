@@ -7,6 +7,7 @@ import Autoplay from 'embla-carousel-autoplay'
 import { motion } from 'framer-motion'
 import { Loader2 } from 'lucide-react'
 import { type FormEvent, useEffect, useState } from 'react'
+import Confetti from 'react-confetti'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -23,6 +24,14 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import {
   Tooltip,
@@ -49,6 +58,8 @@ export default function Home() {
   const [hours, setHours] = useState<number>(0)
   const [minutes, setMinutes] = useState<number>(0)
   const [seconds, setSeconds] = useState<number>(0)
+  const [showConfetti, setShowConfetti] = useState(false)
+  const [showDialog, setShowDialog] = useState(true)
 
   useEffect(() => {
     const targetDate = new Date('2024-12-07T12:00:00-03:00') // 12h Brasília time
@@ -104,7 +115,12 @@ export default function Home() {
     },
     onSuccess: () => {
       form.reset()
+      setShowConfetti(true)
+      setShowDialog(true)
       toast.success(dictionary.preRegisterSuccess)
+      setTimeout(() => {
+        setShowConfetti(false)
+      }, 5000)
     },
     onError: () => toast.error(dictionary.preRegisterError),
   })
@@ -129,6 +145,34 @@ export default function Home() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
     >
+      {showConfetti && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          recycle={false}
+          numberOfPieces={500}
+        />
+      )}
+
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <DialogContent className="">
+          <DialogHeader>
+            <DialogTitle>Thank for Pre-registering!</DialogTitle>
+            <DialogDescription className="pt-4">
+              We appreciate your interest! You will be the first to know when
+              Migos is ready to launch. Prepare yourself for an unforgettable
+              Secret Santa experience!
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter className="w-full">
+            <Button className="w-full" onClick={() => setShowDialog(false)}>
+              Dismiss
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <div className="flex w-full max-w-7xl flex-col gap-8 px-4 lg:flex-row">
         <div className="flex flex-1 flex-col items-center justify-center">
           <div className="flex flex-wrap justify-center gap-8 sm:gap-8">

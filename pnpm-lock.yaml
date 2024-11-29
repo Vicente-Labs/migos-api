@@ -192,6 +192,9 @@ importers:
       react:
         specifier: 19.0.0-rc-380f5d67-20241113
         version: 19.0.0-rc-380f5d67-20241113
+      react-confetti:
+        specifier: ^6.1.0
+        version: 6.1.0(react@19.0.0-rc-380f5d67-20241113)
       react-dom:
         specifier: 19.0.0-rc-380f5d67-20241113
         version: 19.0.0-rc-380f5d67-20241113(react@19.0.0-rc-380f5d67-20241113)
@@ -4223,6 +4226,12 @@ packages:
   quick-format-unescaped@4.0.4:
     resolution: {integrity: sha512-tYC1Q1hgyRuHgloV/YXs2w15unPVh8qfu/qCTfhTYamaw7fyhumKa2yGpdSo87vY32rIclj+4fWYQXUMs9EHvg==}
 
+  react-confetti@6.1.0:
+    resolution: {integrity: sha512-7Ypx4vz0+g8ECVxr88W9zhcQpbeujJAVqL14ZnXJ3I23mOI9/oBVTQ3dkJhUmB0D6XOtCZEM6N0Gm9PMngkORw==}
+    engines: {node: '>=10.18'}
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.1 || ^18.0.0
+
   react-dom@19.0.0-rc-380f5d67-20241113:
     resolution: {integrity: sha512-jd/2ktaIZieYI76xBPAfEXFfg9XQE/GM++rbItliRJJ6pN205aS3JxGc7WAdm3SkaeIHLwK+V6d+FziVg7g5Eg==}
     peerDependencies:
@@ -4744,6 +4753,9 @@ packages:
   turbo@2.0.14:
     resolution: {integrity: sha512-00JjdCMD/cpsjP0Izkjcm8Oaor5yUCfDwODtaLb+WyblyadkaDEisGhy3Dbd5az9n+5iLSPiUgf+WjPbns6MRg==}
     hasBin: true
+
+  tween-functions@1.2.0:
+    resolution: {integrity: sha512-PZBtLYcCLtEcjL14Fzb1gSxPBeL7nWvGhO5ZFPGqziCcr8uvHp0NDmdjBchp6KHL+tExcg0m3NISmKxhU394dA==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -9227,6 +9239,11 @@ snapshots:
 
   quick-format-unescaped@4.0.4: {}
 
+  react-confetti@6.1.0(react@19.0.0-rc-380f5d67-20241113):
+    dependencies:
+      react: 19.0.0-rc-380f5d67-20241113
+      tween-functions: 1.2.0
+
   react-dom@19.0.0-rc-380f5d67-20241113(react@19.0.0-rc-380f5d67-20241113):
     dependencies:
       react: 19.0.0-rc-380f5d67-20241113
@@ -9871,6 +9888,8 @@ snapshots:
       turbo-linux-arm64: 2.0.14
       turbo-windows-64: 2.0.14
       turbo-windows-arm64: 2.0.14
+
+  tween-functions@1.2.0: {}
 
   type-check@0.4.0:
     dependencies:

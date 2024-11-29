@@ -38,6 +38,7 @@
     "nextjs-toploader": "^3.7.15",
     "nprogress": "^0.2.0",
     "react": "19.0.0-rc-380f5d67-20241113",
+    "react-confetti": "^6.1.0",
     "react-dom": "19.0.0-rc-380f5d67-20241113",
     "react-hook-form": "^7.53.2",
     "resend": "^4.0.1",
