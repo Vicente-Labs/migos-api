@@ -2,8 +2,11 @@ app = 'migos'
 primary_region = 'iad'
 
 [build]
-  builder = "paketobuildpacks/builder:base"
+  builder = "heroku/buildpacks:20"
   buildpacks = ["gcr.io/paketo-buildpacks/nodejs"]
+
+[build.args]
+  NODE_VERSION = "20.18.0"
 
 [http_service]
   internal_port = 3000
