@@ -247,7 +247,7 @@ export default function Home() {
             />
             <TooltipProvider>
               <Tooltip delayDuration={30}>
-                <TooltipTrigger className="w-full">
+                <TooltipTrigger asChild>
                   <Button
                     type="button"
                     onClick={() =>

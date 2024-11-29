@@ -26,7 +26,8 @@ const cooperBlack = localFont({
 
 export const metadata: Metadata = {
   title: 'Migos',
-  description: 'Migos - The best way to manage your Secret Santa',
+  description: 'Migos - Simplifying celebrations and bringing people together',
+  manifest: '/site.webmanifest',
 }
 
 interface RootLayoutProps {
@@ -50,6 +51,7 @@ export default async function RootLayout({
       <head>
         <meta name="theme-color" content="#f8ffed" />
       </head>
+
       <body className="text-smooth overflow-x-hidden antialiased">
         <Toaster
           richColors
