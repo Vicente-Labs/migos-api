@@ -9,7 +9,7 @@
     "db:studio": "pnpm env:load drizzle-kit studio",
     "db:seed": "pnpm env:load tsx src/db/seed.ts",
     "build": "tsup",
-    "start": "node dist/http/server.js"
+    "start": "pnpm db:migrate && node dist/http/server.js"
   },
   "dependencies": {
     "@fastify/cors": "^9.0.1",
