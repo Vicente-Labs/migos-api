@@ -67,4 +67,4 @@ async function seedDatabase() {
   }
 }
 
-seedDatabase()
+if (env.NODE_ENV === 'development') seedDatabase()

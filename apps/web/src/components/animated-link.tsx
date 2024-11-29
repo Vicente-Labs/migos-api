@@ -4,26 +4,33 @@ import { cn } from '@/lib/utils'
 
 interface AnimatedLinkProps extends React.ComponentProps<'div'> {
   href: string
+  target?: string
   children: React.ReactNode
 }
 
 export const AnimatedLink = ({
   href,
+  target,
   className,
   children,
   ...props
 }: AnimatedLinkProps) => {
   return (
-    <div
+    <span
       {...props}
       className={cn(
-        'relative w-fit after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-400 after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100',
+        (className =
+          'relative w-fit text-primary after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-400 after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100'),
         className,
       )}
     >
-      <Link href={href} className="text-primary">
+      <Link
+        href={href}
+        target={target}
+        className="text-primary transition-colors hover:text-primary/80"
+      >
         {children}
       </Link>
-    </div>
+    </span>
   )
 }
