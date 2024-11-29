@@ -2,6 +2,8 @@ app = "migos"
 primary_region = "bos"
 
 [build]
+  builder = "paketobuildpacks/builder:base"
+  buildpacks = ["gcr.io/paketo-buildpacks/nodejs"]
   ignorefile = "./docker-compose.yaml"
 
 [deploy]
