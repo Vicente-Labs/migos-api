@@ -47,5 +47,6 @@
   "bestRegardsTheMigosTeam": "Atenciosamente",
   "theMigosTeam": "A Equipe Migos",
   "preRegisterError": "Ocorreu um erro ao pre-registrar. Por favor, tente novamente.",
-  "userAlreadyExists": "Usuário já pre-registrado"
+  "userAlreadyExists": "Usuário já pre-registrado",
+  "preRegisterIsNotAvailableYet": "Pre-register is not available yet"
 }
