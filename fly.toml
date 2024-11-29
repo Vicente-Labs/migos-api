@@ -1,0 +1,20 @@
+app = "migos-api"
+primary_region = "gru"
+
+[build]
+  ignorefile = "./docker-compose.yaml"
+
+[deploy]
+  release_command = "pnpm install && pnpm run build"
+  strategy = "bluegreen"
+  max_unavailable = 1
+  internal_port = 8080
+  force_https = true
+
+[processes]
+  app = "pnpm run start"
+
+[http_service]
+  processes = ["app"]
+  internal_port = 8080
+  force_https = true
