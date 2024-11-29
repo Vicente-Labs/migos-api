@@ -1,5 +1,5 @@
 import { z } from 'zod'
 
-export const planSchema = z.union([z.literal('BASIC'), z.literal('PRO')])
+export const planSchema = z.enum(['BASIC', 'PRO'])
 
 export type Plan = z.infer<typeof planSchema>

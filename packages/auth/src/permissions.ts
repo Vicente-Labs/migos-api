@@ -10,8 +10,22 @@ type PermissionsByRole = (
 ) => void
 
 export const permissions: Record<Role, PermissionsByRole> = {
-  ADMIN: (_, { can }) => {
+  ADMIN: (_, { can, cannot }) => {
     can('manage', 'all')
+
+    cannot('sort', 'group')
+    can('sort', 'group', {
+      timesMatchesGenerated: { $eq: 0 }, // idk why but it means 0
+      ownerPlan: { $eq: 'BASIC' },
+      isMember: { $eq: true },
+      role: { $eq: 'ADMIN' },
+    })
+    can('sort', 'group', {
+      timesMatchesGenerated: { $lte: 1 }, // idk why but it means 2
+      ownerPlan: { $eq: 'PRO' },
+      isMember: { $eq: true },
+      role: { $eq: 'ADMIN' },
+    })
   },
   MEMBER: (user, { can, cannot }) => {
     can('get', 'group', { isMember: { $eq: true } })
@@ -19,12 +33,12 @@ export const permissions: Record<Role, PermissionsByRole> = {
 
     cannot('create', 'group')
     can('create', 'group', {
-      ownerPlan: { $eq: 'PRO' },
-      groups: { $lte: 5 },
+      ownerPlan: { $eq: 'BASIC' },
+      userGroupsCount: { $lte: 1 }, // idk why but it means 2
     })
     can('create', 'group', {
-      ownerPlan: { $eq: 'BASIC' },
-      groups: { $lte: 2 },
+      ownerPlan: { $eq: 'PRO' },
+      userGroupsCount: { $lte: 4 }, // idk why but it means 5
     })
   },
 }

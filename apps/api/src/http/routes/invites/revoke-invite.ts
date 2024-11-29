@@ -22,7 +22,7 @@ export async function revokeInvite(app: FastifyInstance) {
           summary: 'Revoke invite',
           params: z.object({
             groupId: z.string(),
-            inviteId: z.string().uuid(),
+            inviteId: z.string(),
           }),
           response: {
             201: z.object({

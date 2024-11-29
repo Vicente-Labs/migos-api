@@ -65,8 +65,14 @@ export async function updateDescription(app: FastifyInstance) {
         const { cannot } = getUserPermissions(userId, membership)
 
         const authGroup = groupSchema.parse({
-          ...group,
-          isOwner: group.ownerId === userId,
+          id: group.id,
+          ownerId: userId,
+          ownerPlan: 'BASIC', // irrelevant so we won't spend bandwidth with this db query
+          isMember: true,
+          role: membership,
+          membersCount: 0, // irrelevant so we won't spend bandwidth with this db query
+          userGroupsCount: 0, // irrelevant so we won't spend bandwidth with this db query
+          timesMatchesGenerated: 0, // irrelevant so we won't spend bandwidth with this db query
         })
 
         if (cannot('update', authGroup))

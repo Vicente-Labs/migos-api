@@ -5,7 +5,7 @@ import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { db } from '@/db'
-import { member } from '@/db/schemas'
+import { member, users } from '@/db/schemas'
 import { BadRequestError } from '@/http/_errors/bad-request-errors'
 import { UnauthorizedError } from '@/http/_errors/unauthorized-error'
 import { auth } from '@/http/middlewares/auth'
@@ -23,7 +23,7 @@ export async function generateMatches(app: FastifyInstance) {
           tags: ['group'],
           summary: 'Generate matches',
           params: z.object({
-            groupId: z.string().uuid(),
+            groupId: z.string(),
           }),
           response: {
             201: z.object({
@@ -40,6 +40,7 @@ export async function generateMatches(app: FastifyInstance) {
                 'You are not able to perform this action',
                 'Missing auth token',
                 'Invalid token',
+                `You're not a member of this group`,
               ]),
             }),
             500: z.object({
@@ -56,11 +57,22 @@ export async function generateMatches(app: FastifyInstance) {
 
         const { cannot } = getUserPermissions(userId, membership)
 
+        const owner = await db
+          .select()
+          .from(users)
+          .where(eq(users.id, group.ownerId))
+
+        if (!owner.length) throw new BadRequestError('Owner not found')
+
         const authGroup = groupSchema.parse({
-          ...group,
+          id: group.id,
+          ownerId: group.ownerId,
+          ownerPlan: owner[0].plan,
           isMember: true,
           role: membership,
-          isOwner: group.ownerId === userId,
+          membersCount: 0, // irrelevant for auth package so we won't spend bandwidth with this db query
+          userGroupsCount: 1, // irrelevant for auth package so we won't spend bandwidth with this db query
+          timesMatchesGenerated: group.timesMatchesGenerated,
         })
 
         if (cannot('sort', authGroup))

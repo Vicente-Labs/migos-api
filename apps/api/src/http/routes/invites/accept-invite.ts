@@ -19,7 +19,7 @@ export async function acceptInvite(app: FastifyInstance) {
           tags: ['invites'],
           summary: 'Accept a group invite',
           params: z.object({
-            inviteId: z.string().uuid(),
+            inviteId: z.string(),
           }),
           response: {
             201: z.object({

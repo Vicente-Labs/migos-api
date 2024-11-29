@@ -27,8 +27,12 @@ export const users = pgTable('users', {
   provider: providerEnum('provider'),
   providerId: text('provider_id').unique(),
 
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .defaultNow(),
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .defaultNow(),
 })
 
 export const usersRelations = relations(users, ({ one }) => ({

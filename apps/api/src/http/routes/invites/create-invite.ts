@@ -19,7 +19,7 @@ export async function createInvite(app: FastifyInstance) {
           tags: ['invites'],
           summary: 'Create a group invite',
           params: z.object({
-            groupId: z.string().uuid(),
+            groupId: z.string(),
           }),
           body: z.object({
             name: z.string(),

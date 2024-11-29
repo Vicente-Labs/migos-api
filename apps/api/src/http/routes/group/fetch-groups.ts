@@ -10,14 +10,16 @@ import { auth } from '@/http/middlewares/auth'
 
 const groupSchema = z.object({
   id: z.string(),
+  ownerId: z.string(),
   role: roleSchema,
   name: z.string(),
-  ownerId: z.string(),
   description: z.string().nullable(),
   avatarUrl: z.string().nullable(),
   budget: z.string(),
   isMember: z.boolean(),
   isOwner: z.boolean(),
+  endDate: z.coerce.date().nullable().optional(),
+  drawDate: z.coerce.date().nullable().optional(),
   updatedAt: z.coerce.date(),
   createdAt: z.coerce.date(),
 })
@@ -32,7 +34,7 @@ export async function fetchGroups(app: FastifyInstance) {
         schema: {
           tags: ['group'],
           summary: 'Fetch groups',
-          querystring: z.object({ page: z.coerce.number() }),
+          querystring: z.object({ page: z.coerce.number().default(1) }),
           response: {
             200: z.object({
               message: z.literal('Groups fetched successfully'),

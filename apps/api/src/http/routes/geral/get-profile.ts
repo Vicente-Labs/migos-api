@@ -22,6 +22,7 @@ export async function getProfile(app: FastifyInstance) {
     {
       schema: {
         tags: ['geral'],
+        security: [{ bearerAuth: [] }],
         params: z.object({ userId: z.string() }),
         description: 'Get user profile',
         response: {

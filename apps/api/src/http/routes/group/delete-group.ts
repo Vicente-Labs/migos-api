@@ -40,6 +40,7 @@ export async function deleteGroup(app: FastifyInstance) {
                 'You are not allowed to delete this group',
                 'Missing auth token',
                 'Invalid token',
+                "You're not a member of this group",
               ]),
             }),
             500: z.object({
@@ -56,11 +57,15 @@ export async function deleteGroup(app: FastifyInstance) {
 
         const { cannot } = getUserPermissions(userId, membership)
 
-        const isGroupOwner = group.ownerId === userId
-
         const authGroup = groupSchema.parse({
-          ...group,
-          isOwner: isGroupOwner,
+          id: group.id,
+          ownerId: group.ownerId,
+          ownerPlan: 'BASIC', // irrelevant so we won't spend bandwidth with this db query
+          isMember: true,
+          role: membership,
+          membersCount: 1, // irrelevant so we won't spend bandwidth with this db query
+          userGroupsCount: 1, // irrelevant so we won't spend bandwidth with this db query
+          timesMatchesGenerated: 0, // irrelevant so we won't spend bandwidth with this db query
         })
 
         if (cannot('delete', authGroup))
@@ -70,7 +75,9 @@ export async function deleteGroup(app: FastifyInstance) {
 
         await db.delete(groups).where(eq(groups.id, groupId))
 
-        return res.status(204).send()
+        return res.status(200).send({
+          message: 'Group deleted successfully',
+        })
       },
     )
 }

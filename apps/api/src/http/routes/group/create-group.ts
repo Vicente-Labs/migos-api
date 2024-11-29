@@ -26,12 +26,19 @@ export async function createGroup(app: FastifyInstance) {
             description: z.string().optional(),
             budget: z.coerce.number(),
             avatarUrl: z.string().optional(),
-            endDate: z.coerce.date(),
-            drawDate: z.coerce.date().nullable(),
+            endDate: z
+              .string()
+              .datetime()
+              .transform((dt) => new Date(dt)),
+            drawDate: z
+              .string()
+              .datetime()
+              .transform((dt) => new Date(dt)),
           }),
           response: {
             201: z.object({
               message: z.literal('Group created successfully'),
+              id: z.string(),
             }),
             400: z.object({
               message: z.string(),
@@ -67,18 +74,22 @@ export async function createGroup(app: FastifyInstance) {
           .from(users)
           .where(eq(users.id, userId))
           .leftJoin(member, eq(users.id, member.userId))
+          .groupBy(users.id)
 
         if (!user || user.length <= 0)
           throw new BadRequestError('User not found')
 
-        const groupId = createId()
+        const randomCUID = createId()
 
         const authGroup = groupSchema.parse({
+          id: randomCUID,
           ownerId: userId,
           ownerPlan: user[0].plan,
-          groups: user[0].groupsCount,
           isMember: true,
-          id: groupId,
+          role: 'MEMBER', // irrelevant so we won't spend bandwidth with this db query
+          membersCount: 0,
+          userGroupsCount: user[0].groupsCount,
+          timesMatchesGenerated: 0,
         })
 
         const { cannot } = getUserPermissions(userId, 'MEMBER')
@@ -91,22 +102,36 @@ export async function createGroup(app: FastifyInstance) {
         const { name, description, budget, avatarUrl, endDate, drawDate } =
           req.body
 
-        await db
-          .insert(groups)
-          .values({
-            id: groupId,
-            name,
-            description,
-            budget: budget.toString(), // Its decimal in the database, so it needs to be a string to be inserted
-            avatarUrl,
-            ownerId: userId,
-            endDate,
-            drawDate,
+        const { groupId } = await db.transaction(async (tx) => {
+          const group = await tx
+            .insert(groups)
+            .values({
+              name,
+              description,
+              budget: budget.toString(),
+              avatarUrl,
+              ownerId: userId,
+              endDate,
+              drawDate,
+            })
+            .returning({
+              id: groups.id,
+            })
+
+          if (!group || group.length <= 0) throw new Error()
+
+          await tx.insert(member).values({
+            userId,
+            groupId: group[0].id,
+            role: 'ADMIN',
           })
-          .returning({ id: groups.id })
+
+          return { groupId: group[0].id }
+        })
 
         return res.status(201).send({
           message: 'Group created successfully',
+          id: groupId,
         })
       },
     )

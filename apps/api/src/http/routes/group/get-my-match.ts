@@ -30,7 +30,7 @@ export async function getMyMatch(app: FastifyInstance) {
           tags: ['group'],
           summary: 'Get my match',
           params: z.object({
-            groupId: z.string().uuid(),
+            groupId: z.string(),
           }),
           response: {
             200: z.object({
@@ -45,7 +45,14 @@ export async function getMyMatch(app: FastifyInstance) {
                 'You are not authorized to view your match',
                 'Missing auth token',
                 'Invalid token',
+                `You're not a member of this group`,
+                'Validation error',
               ]),
+              errors: z
+                .object({
+                  groupId: z.array(z.string()).optional(),
+                })
+                .optional(),
             }),
             500: z.object({
               message: z.literal('Internal server error'),
@@ -62,10 +69,14 @@ export async function getMyMatch(app: FastifyInstance) {
         const { cannot } = getUserPermissions(userId, membership)
 
         const authGroup = groupSchema.parse({
-          ...group,
-          role: membership,
+          id: group.id,
+          ownerId: userId,
+          ownerPlan: 'BASIC', // irrelevant so we won't spend bandwidth with this db query
           isMember: true,
-          isOwner: group.ownerId === userId,
+          role: membership,
+          membersCount: 0, // irrelevant to auth package, our route must handle it
+          userGroupsCount: 0, // irrelevant so we won't spend bandwidth with this db query
+          timesMatchesGenerated: 0, // irrelevant so we won't spend bandwidth with this db query
         })
 
         if (cannot('get', authGroup))
@@ -81,8 +92,9 @@ export async function getMyMatch(app: FastifyInstance) {
             avatarUrl: users.avatarUrl,
           })
           .from(member)
-          .where(and(eq(groups.id, groupId), eq(member.userId, userId)))
           .leftJoin(users, eq(users.id, member.matchId))
+          .leftJoin(groups, eq(groups.id, member.groupId))
+          .where(and(eq(member.groupId, groupId), eq(member.userId, userId)))
 
         if (
           !match ||
@@ -98,7 +110,10 @@ export async function getMyMatch(app: FastifyInstance) {
           .select()
           .from(member)
           .where(
-            and(eq(groups.id, groupId), eq(member.userId, match[0].userId)),
+            and(
+              eq(member.groupId, groupId),
+              eq(member.userId, match[0].userId),
+            ),
           )
 
         if (!matchMember || matchMember.length <= 0)

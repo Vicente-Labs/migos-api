@@ -1,8 +1,11 @@
 import { groupSchema as authGroupSchema } from '@migos/auth'
+import { count, eq } from 'drizzle-orm'
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
+import { db } from '@/db'
+import { member } from '@/db/schemas'
 import { UnauthorizedError } from '@/http/_errors/unauthorized-error'
 import { auth } from '@/http/middlewares/auth'
 import { getUserPermissions } from '@/utils/get-user-permissions'
@@ -16,6 +19,10 @@ const groupSchema = z.object({
   budget: z.string(),
   updatedAt: z.coerce.date(),
   createdAt: z.coerce.date(),
+  endDate: z.coerce.date(),
+  drawDate: z.coerce.date().nullable().optional(),
+  membersCount: z.number(),
+  timesMatchesGenerated: z.number(),
 })
 
 export async function getGroup(app: FastifyInstance) {
@@ -45,7 +52,11 @@ export async function getGroup(app: FastifyInstance) {
                 .optional(),
             }),
             401: z.object({
-              message: z.enum(['Missing auth token', 'Invalid token']),
+              message: z.enum([
+                'Missing auth token',
+                'Invalid token',
+                `You're not a member of this group`,
+              ]),
             }),
             500: z.object({
               message: z.literal('Internal server error'),
@@ -66,12 +77,18 @@ export async function getGroup(app: FastifyInstance) {
           isMember: true,
           isOwner: group.ownerId === userId,
           role: membership,
+          ownerPlan: 'BASIC', // forcing BASIC plan cuz its irrelevant in this context, and we don't wanna to spend bandwidth with irrelevant db queries
         })
 
         if (cannot('get', authGroup))
           throw new UnauthorizedError(
             'You are not allowed to access this group',
           )
+
+        const membersCount = await db
+          .select({ count: count() })
+          .from(member)
+          .where(eq(member.groupId, groupId))
 
         const formattedGroup = {
           id: group.id,
@@ -82,6 +99,10 @@ export async function getGroup(app: FastifyInstance) {
           budget: group.budget,
           updatedAt: group.updatedAt,
           createdAt: group.createdAt,
+          endDate: group.endDate,
+          drawDate: group.drawDate,
+          timesMatchesGenerated: group.timesMatchesGenerated,
+          membersCount: membersCount[0].count,
         }
 
         return res.status(200).send({

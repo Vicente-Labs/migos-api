@@ -12,7 +12,7 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
   app.addHook('preHandler', async (req) => {
     req.getCurrentUserId = async () => {
       if (!req.headers.authorization)
-        throw new UnauthorizedError('Missing auth token.')
+        throw new UnauthorizedError('Missing auth token')
 
       const token = req.headers.authorization
         .replace('Bearer ', '')
@@ -24,7 +24,7 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
         algorithms: ['HS256'],
       })
 
-      if (!payload.sub) throw new UnauthorizedError('Invalid token.')
+      if (!payload.sub) throw new UnauthorizedError('Invalid token')
 
       return { sub: payload.sub }
     }
@@ -45,6 +45,7 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
             ownerId: groups.ownerId,
             endDate: groups.endDate,
             drawDate: groups.drawDate,
+            timesMatchesGenerated: groups.timesMatchesGenerated,
             isMember: sql<boolean>`${member.userId} = ${userId}`,
           },
           member: { role: member.role },
@@ -74,6 +75,7 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
           createdAt: group.createdAt,
           endDate: group.endDate,
           drawDate: group.drawDate,
+          timesMatchesGenerated: group.timesMatchesGenerated,
         },
         membership: queriedMember.member.role,
       }

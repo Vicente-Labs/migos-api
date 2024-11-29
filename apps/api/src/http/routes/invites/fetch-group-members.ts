@@ -9,7 +9,7 @@ import { member, users } from '@/db/schemas'
 import { auth } from '@/http/middlewares/auth'
 
 const userSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string(),
   name: z.string(),
   email: z.string().email(),
   avatarUrl: z.string().nullable(),
@@ -29,7 +29,7 @@ export async function fetchGroupMembers(app: FastifyInstance) {
           tags: ['groups'],
           summary: 'Fetch group members',
           params: z.object({
-            groupId: z.string().uuid(),
+            groupId: z.string(),
           }),
           response: {
             200: z.object({
