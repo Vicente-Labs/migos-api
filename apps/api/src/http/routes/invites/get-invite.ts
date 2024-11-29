@@ -29,17 +29,22 @@ export async function getInvite(app: FastifyInstance) {
         }),
         response: {
           200: z.object({
-            message: z.literal('invite details fetched successfully'),
+            message: z.literal('Invite details fetched successfully'),
             invite: inviteSchema,
           }),
           400: z.object({
-            message: z.literal(`invite not found`),
+            message: z.enum(['Invite not found', 'Validation error']),
+            errors: z
+              .object({
+                inviteId: z.array(z.string()).optional(),
+              })
+              .optional(),
           }),
           401: z.object({
-            message: z.tuple([
-              z.literal('missing auth token.'),
-              z.literal('invalid auth token.'),
-            ]),
+            message: z.enum(['Missing auth token', 'Invalid token']),
+          }),
+          500: z.object({
+            message: z.literal('Internal server error'),
           }),
         },
       },
@@ -55,7 +60,7 @@ export async function getInvite(app: FastifyInstance) {
       if (!invite) throw new BadRequestError(`Invite not found`)
 
       return res.status(200).send({
-        message: 'invite details fetched successfully',
+        message: 'Invite details fetched successfully',
         invite,
       })
     },

@@ -29,16 +29,16 @@ export async function revokeInvite(app: FastifyInstance) {
               message: z.literal('Invite successfully revoked'),
             }),
             400: z.object({
-              message: z.tuple([
-                z.literal(`you're not allowed to revoke invites`),
-                z.literal('invite not found or already accepted'),
+              message: z.enum([
+                "You're not allowed to revoke invites",
+                'Invite not found or already accepted',
               ]),
             }),
             401: z.object({
-              message: z.tuple([
-                z.literal('missing auth token.'),
-                z.literal('invalid auth token.'),
-              ]),
+              message: z.enum(['Missing auth token', 'Invalid token']),
+            }),
+            500: z.object({
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -51,7 +51,7 @@ export async function revokeInvite(app: FastifyInstance) {
         const { cannot } = getUserPermissions(userId, membership)
 
         if (cannot('revoke', 'invite'))
-          throw new UnauthorizedError(`you're not allowed to revoke invites`)
+          throw new UnauthorizedError(`You're not allowed to revoke invites`)
 
         const invite = await db
           .select()
@@ -59,7 +59,7 @@ export async function revokeInvite(app: FastifyInstance) {
           .where(and(eq(invites.id, inviteId), eq(invites.groupId, groupId)))
 
         if (!invite)
-          throw new BadRequestError(`invite not found or already accepted`)
+          throw new BadRequestError(`Invite not found or already accepted`)
 
         await db.delete(invites).where(eq(invites.id, inviteId))
 

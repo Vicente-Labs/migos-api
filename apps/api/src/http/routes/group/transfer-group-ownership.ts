@@ -25,17 +25,27 @@ export async function transferGroupOwnership(app: FastifyInstance) {
           }),
           response: {
             200: z.object({
-              message: z.literal('group ownership transferred successfully'),
+              message: z.literal('Group ownership transferred successfully'),
+            }),
+            400: z.object({
+              message: z.string(),
+              errors: z
+                .object({
+                  groupId: z.array(z.string()).optional(),
+                })
+                .optional(),
             }),
             401: z.object({
-              message: z.tuple([
-                z.literal('you are not allowed to transfer ownership'),
-                z.literal(`you're not a member of this group.`),
-                z.literal('group name is required.'),
+              message: z.enum([
+                'You are not allowed to transfer ownership',
+                "You're not a member of this group",
+                'Group name is required',
+                'Missing auth token',
+                'Invalid token',
               ]),
             }),
             500: z.object({
-              message: z.string(),
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -55,7 +65,7 @@ export async function transferGroupOwnership(app: FastifyInstance) {
 
         if (cannot('update', authGroup))
           throw new UnauthorizedError(
-            'you are not allowed to transfer ownership',
+            'You are not allowed to transfer ownership',
           )
 
         await db

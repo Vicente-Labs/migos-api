@@ -16,18 +16,37 @@ export async function registerAccountWithPassword(app: FastifyInstance) {
         tags: ['auth'],
         description: 'Register a new user with password',
         body: z.object({
-          email: z.string().email(),
-          name: z.string(),
-          username: z.string(),
-          password: z.string(),
+          email: z.string().min(1, 'Email is required').email(),
+          name: z.string().min(1, 'Name is required'),
+          username: z.string().min(1, 'Username is required'),
+          password: z
+            .string()
+            .min(8, 'Password must be at least 8 characters long'),
         }),
         response: {
-          204: z.null(),
+          201: z.object({
+            message: z.literal('User created successfully'),
+          }),
           400: z.object({
-            message: z.enum(['User with same email already exists']),
+            message: z.enum([
+              'Validation error',
+              'User with same email already exists',
+            ]),
+            errors: z
+              .object({
+                email: z.array(z.literal('Invalid email')).optional(),
+                name: z.array(z.literal('Name is required')).optional(),
+                password: z
+                  .array(
+                    z.literal('Password must be at least 8 characters long'),
+                  )
+                  .optional(),
+                username: z.array(z.literal('Username is required')).optional(),
+              })
+              .optional(),
           }),
           500: z.object({
-            message: z.string(),
+            message: z.literal('Internal server error'),
           }),
         },
       },
@@ -35,13 +54,13 @@ export async function registerAccountWithPassword(app: FastifyInstance) {
     async (req, res) => {
       const { email, name, password } = req.body
 
-      const userWithSameEmail = await db.query.users.findFirst({
-        where: eq(users.email, email.toLowerCase()),
-      })
+      const userWithSameEmail = await db
+        .select()
+        .from(users)
+        .where(eq(users.email, email.toLowerCase()))
 
-      if (userWithSameEmail) {
-        return new BadRequestError('User with same email already exists')
-      }
+      if (userWithSameEmail && userWithSameEmail.length > 0)
+        throw new BadRequestError('User with same email already exists')
 
       const passwordHash = await hash(password, 8)
 
@@ -51,7 +70,9 @@ export async function registerAccountWithPassword(app: FastifyInstance) {
         passwordHash,
       })
 
-      return res.status(204).send()
+      return res.status(201).send({
+        message: 'User created successfully',
+      })
     },
   )
 }

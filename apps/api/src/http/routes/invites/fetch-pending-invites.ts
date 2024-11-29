@@ -30,17 +30,17 @@ export async function getPendingInvites(app: FastifyInstance) {
           summary: 'Fetch pending invites',
           response: {
             200: z.object({
-              message: z.literal('pending invites fetched successfully'),
+              message: z.literal('Pending invites fetched successfully'),
               invites: inviteSchema.array(),
             }),
             400: z.object({
-              message: z.tuple([z.literal('user not found')]),
+              message: z.literal('User not found'),
             }),
             401: z.object({
-              message: z.tuple([
-                z.literal('missing auth token.'),
-                z.literal('invalid auth token.'),
-              ]),
+              message: z.enum(['Missing auth token', 'Invalid token']),
+            }),
+            500: z.object({
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -50,7 +50,7 @@ export async function getPendingInvites(app: FastifyInstance) {
 
         const [user] = await db.select().from(users).where(eq(users.id, userId))
 
-        if (!user) throw new BadRequestError(`user not found`)
+        if (!user) throw new BadRequestError(`User not found`)
 
         const pendingInvites = await db
           .select()
@@ -60,7 +60,7 @@ export async function getPendingInvites(app: FastifyInstance) {
           )
 
         return res.status(200).send({
-          message: 'pending invites fetched successfully',
+          message: 'Pending invites fetched successfully',
           invites: pendingInvites,
         })
       },

@@ -33,17 +33,14 @@ export async function fetchGroupMembers(app: FastifyInstance) {
           }),
           response: {
             200: z.object({
-              message: z.literal('group members fetched successfully'),
+              message: z.literal('Group members fetched successfully'),
               members: z.array(userSchema),
             }),
             401: z.object({
-              message: z.tuple([
-                z.literal('missing auth token.'),
-                z.literal('invalid auth token.'),
-              ]),
+              message: z.enum(['Missing auth token', 'Invalid token']),
             }),
             500: z.object({
-              message: z.literal('internal server error'),
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -88,7 +85,7 @@ export async function fetchGroupMembers(app: FastifyInstance) {
           .filter((member) => member !== null)
 
         return res.status(200).send({
-          message: 'group members fetched successfully',
+          message: 'Group members fetched successfully',
           members: formattedMembers,
         })
       },

@@ -35,17 +35,14 @@ export async function fetchGroups(app: FastifyInstance) {
           querystring: z.object({ page: z.coerce.number() }),
           response: {
             200: z.object({
-              message: z.literal('groups fetched successfully'),
+              message: z.literal('Groups fetched successfully'),
               groups: groupSchema.array(),
             }),
             401: z.object({
-              message: z.tuple([
-                z.literal('missing auth token'),
-                z.literal('invalid auth token'),
-              ]),
+              message: z.enum(['Missing auth token', 'Invalid token']),
             }),
             500: z.object({
-              message: z.string(),
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -80,7 +77,7 @@ export async function fetchGroups(app: FastifyInstance) {
           .filter((group): group is NonNullable<typeof group> => group !== null)
 
         return res.status(200).send({
-          message: 'groups fetched successfully',
+          message: 'Groups fetched successfully',
           groups: formattedGroups,
         })
       },

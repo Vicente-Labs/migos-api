@@ -22,6 +22,7 @@ export async function authenticateWithGoogle(app: FastifyInstance) {
         }),
         response: {
           200: z.object({
+            message: z.literal('Authenticated successfully'),
             token: z.string(),
           }),
           400: z.object({
@@ -29,10 +30,16 @@ export async function authenticateWithGoogle(app: FastifyInstance) {
               'User info not found',
               'User not found',
               'Invalid or expired authorization code',
+              'Validation error',
             ]),
+            errors: z
+              .object({
+                code: z.array(z.string()).optional(),
+              })
+              .optional(),
           }),
           500: z.object({
-            message: z.string(),
+            message: z.literal('Internal server error'),
           }),
         },
       },
@@ -46,9 +53,8 @@ export async function authenticateWithGoogle(app: FastifyInstance) {
 
         const userInfo = await oauth2.userinfo.get({ auth: googleClient })
 
-        if (!userInfo.data.email || !userInfo.data.name || !userInfo.data.id) {
+        if (!userInfo.data.email || !userInfo.data.name || !userInfo.data.id)
           throw new BadRequestError('User info not found')
-        }
 
         const [existingUser] = await db
           .select()
@@ -67,7 +73,10 @@ export async function authenticateWithGoogle(app: FastifyInstance) {
           .setIssuedAt()
           .sign(secret)
 
-        return res.status(200).send({ token })
+        return res.status(200).send({
+          message: 'Authenticated successfully',
+          token,
+        })
       } catch (error) {
         if (error instanceof Error && 'response' in error) {
           const gaxiosError = error as unknown as {

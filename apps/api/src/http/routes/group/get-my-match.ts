@@ -34,8 +34,21 @@ export async function getMyMatch(app: FastifyInstance) {
           }),
           response: {
             200: z.object({
-              message: z.literal('match fetched successfully'),
+              message: z.literal('Match fetched successfully'),
               match: matchSchema,
+            }),
+            400: z.object({
+              message: z.literal('The group has not generated any matches yet'),
+            }),
+            401: z.object({
+              message: z.enum([
+                'You are not authorized to view your match',
+                'Missing auth token',
+                'Invalid token',
+              ]),
+            }),
+            500: z.object({
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -57,7 +70,7 @@ export async function getMyMatch(app: FastifyInstance) {
 
         if (cannot('get', authGroup))
           throw new UnauthorizedError(
-            'You are not authorized to view your match.',
+            'You are not authorized to view your match',
           )
 
         const match = await db
@@ -79,7 +92,7 @@ export async function getMyMatch(app: FastifyInstance) {
           !match[0].email ||
           !match[0].avatarUrl
         )
-          throw new NotFoundError('the group has not generated any matches yet')
+          throw new NotFoundError('The group has not generated any matches yet')
 
         const matchMember = await db
           .select()
@@ -100,7 +113,7 @@ export async function getMyMatch(app: FastifyInstance) {
         })
 
         return res.status(200).send({
-          message: 'match fetched successfully',
+          message: 'Match fetched successfully',
           match: completeMatch,
         })
       },

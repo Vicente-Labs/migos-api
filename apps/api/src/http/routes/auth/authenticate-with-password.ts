@@ -18,17 +18,30 @@ export async function authenticateWithPassword(app: FastifyInstance) {
         description: 'Authenticate with password',
         body: z.object({
           email: z.string().email(),
-          password: z.string().min(6),
+          password: z
+            .string()
+            .min(8, 'Password must be at least 8 characters long'),
         }),
         response: {
           200: z.object({
+            message: z.literal('Authenticated successfully'),
             token: z.string(),
           }),
           401: z.object({
-            message: z.literal('Invalid credentials'),
+            message: z.enum(['Invalid credentials', 'Validation error']),
+            errors: z
+              .object({
+                password: z
+                  .array(
+                    z.literal('Password must be at least 8 characters long'),
+                  )
+                  .optional(),
+                email: z.array(z.literal('Invalid email')).optional(),
+              })
+              .optional(),
           }),
           500: z.object({
-            message: z.string(),
+            message: z.literal('Internal server error'),
           }),
         },
       },
@@ -59,7 +72,10 @@ export async function authenticateWithPassword(app: FastifyInstance) {
         .setIssuedAt()
         .sign(secret)
 
-      return res.status(200).send({ token })
+      return res.status(200).send({
+        message: 'Authenticated successfully',
+        token,
+      })
     },
   )
 }

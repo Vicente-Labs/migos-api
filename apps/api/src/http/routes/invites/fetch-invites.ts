@@ -34,17 +34,22 @@ export async function fetchInvites(app: FastifyInstance) {
           }),
           response: {
             200: z.object({
-              message: z.literal('invites fetched successfully'),
+              message: z.literal('Invites fetched successfully'),
               invites: inviteSchema.array(),
             }),
             400: z.object({
-              message: z.literal(`you're not allowed to get group invites`),
+              message: z.string(),
+              errors: z
+                .object({
+                  groupId: z.array(z.string()).optional(),
+                })
+                .optional(),
             }),
             401: z.object({
-              message: z.tuple([
-                z.literal('missing auth token.'),
-                z.literal('invalid auth token.'),
-              ]),
+              message: z.enum(['Missing auth token', 'Invalid token']),
+            }),
+            500: z.object({
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -65,7 +70,7 @@ export async function fetchInvites(app: FastifyInstance) {
           .where(eq(invites.groupId, groupId))
 
         return res.status(200).send({
-          message: 'invites fetched successfully',
+          message: 'Invites fetched successfully',
           invites: queriedInvites,
         })
       },

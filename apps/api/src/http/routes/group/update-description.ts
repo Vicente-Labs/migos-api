@@ -27,20 +27,29 @@ export async function updateDescription(app: FastifyInstance) {
             description: z.string(),
           }),
           response: {
-            204: z.object({
-              message: z.literal('group description updated successfully'),
+            200: z.object({
+              message: z.literal('Group description updated successfully'),
+            }),
+            400: z.object({
+              message: z.string(),
+              errors: z
+                .object({
+                  description: z.array(z.string()).optional(),
+                  groupId: z.array(z.string()).optional(),
+                })
+                .optional(),
             }),
             401: z.object({
-              message: z.tuple([
-                z.literal(
-                  'you are not allowed to update this group description',
-                ),
-                z.literal(`you're not a member of this group.`),
-                z.literal('group name is required.'),
+              message: z.enum([
+                'You are not allowed to update this group description',
+                "You're not a member of this group",
+                'Group name is required',
+                'Missing auth token',
+                'Invalid token',
               ]),
             }),
             500: z.object({
-              message: z.string(),
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -62,7 +71,7 @@ export async function updateDescription(app: FastifyInstance) {
 
         if (cannot('update', authGroup))
           throw new UnauthorizedError(
-            'you are not allowed to update this group description',
+            'You are not allowed to update this group description',
           )
 
         await db
@@ -71,7 +80,7 @@ export async function updateDescription(app: FastifyInstance) {
           .where(eq(groups.id, groupId))
 
         return res.status(200).send({
-          message: 'group description updated successfully',
+          message: 'Group description updated successfully',
         })
       },
     )

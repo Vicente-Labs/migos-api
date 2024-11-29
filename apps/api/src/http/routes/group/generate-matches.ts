@@ -26,24 +26,24 @@ export async function generateMatches(app: FastifyInstance) {
             groupId: z.string().uuid(),
           }),
           response: {
-            204: z.object({
-              message: z.literal('matches generated successfully'),
+            201: z.object({
+              message: z.literal('Matches generated successfully'),
             }),
             400: z.object({
-              message: z.tuple([
-                z.literal('group must have at least 2 members'),
-                z.literal('number of members must be a even number'),
+              message: z.enum([
+                'Group must have at least 2 members',
+                'Number of members must be a even number',
               ]),
             }),
             401: z.object({
-              message: z.tuple([
-                z.literal('you are not able to perform this action'),
-                z.literal('missing auth token'),
-                z.literal('invalid auth token'),
+              message: z.enum([
+                'You are not able to perform this action',
+                'Missing auth token',
+                'Invalid token',
               ]),
             }),
             500: z.object({
-              message: z.string(),
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -64,7 +64,7 @@ export async function generateMatches(app: FastifyInstance) {
         })
 
         if (cannot('sort', authGroup))
-          throw new UnauthorizedError('you are not able to perform this action')
+          throw new UnauthorizedError('You are not able to perform this action')
 
         const members = await db
           .select()
@@ -72,10 +72,10 @@ export async function generateMatches(app: FastifyInstance) {
           .where(eq(member.groupId, groupId))
 
         if (members.length < 2)
-          throw new BadRequestError('group must have at least 2 members')
+          throw new BadRequestError('Group must have at least 2 members')
 
         if (members.length % 2 !== 0)
-          throw new BadRequestError('number of members must be a even number')
+          throw new BadRequestError('Number of members must be a even number')
 
         const { matches } = await generateMatchesFn(members)
 
@@ -92,8 +92,8 @@ export async function generateMatches(app: FastifyInstance) {
           await Promise.all(updates)
         })
 
-        return res.status(200).send({
-          message: 'matches generated successfully',
+        return res.status(201).send({
+          message: 'Matches generated successfully',
         })
       },
     )

@@ -25,16 +25,21 @@ export async function deleteGroup(app: FastifyInstance) {
           }),
           response: {
             200: z.object({
-              message: z.literal('group deleted successfully'),
+              message: z.literal('Group deleted successfully'),
             }),
             400: z.object({
               message: z.string(),
+              errors: z
+                .object({
+                  groupId: z.array(z.string()).optional(),
+                })
+                .optional(),
             }),
             401: z.object({
-              message: z.tuple([
-                z.literal('You are not allowed to delete this group'),
-                z.literal('missing auth token'),
-                z.literal('invalid auth token'),
+              message: z.enum([
+                'You are not allowed to delete this group',
+                'Missing auth token',
+                'Invalid token',
               ]),
             }),
             500: z.object({

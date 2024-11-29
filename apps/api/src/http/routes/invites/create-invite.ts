@@ -27,10 +27,30 @@ export async function createInvite(app: FastifyInstance) {
           }),
           response: {
             201: z.object({
-              message: z.literal('invite created successfully'),
+              message: z.literal('Invite created successfully'),
               inviteId: z.string(),
               name: z.string(),
               email: z.string().email(),
+            }),
+            400: z.object({
+              message: z.enum(['Validation error']),
+              errors: z
+                .object({
+                  email: z.array(z.string()).optional(),
+                  name: z.array(z.string()).optional(),
+                  groupId: z.array(z.string()).optional(),
+                })
+                .optional(),
+            }),
+            401: z.object({
+              message: z.enum([
+                'Missing auth token',
+                'Invalid token',
+                'You are not allowed to invite users to this group',
+              ]),
+            }),
+            500: z.object({
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -45,7 +65,7 @@ export async function createInvite(app: FastifyInstance) {
 
         if (cannot('create', 'invite'))
           throw new UnauthorizedError(
-            'you are not allowed to invite users to this group',
+            'You are not allowed to invite users to this group',
           )
 
         const { email, name } = req.body
@@ -65,7 +85,7 @@ export async function createInvite(app: FastifyInstance) {
         handled in the front end */
 
         return res.status(201).send({
-          message: 'invite created successfully',
+          message: 'Invite created successfully',
           inviteId: invite.id,
           name,
           email: email.toLowerCase(),

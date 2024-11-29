@@ -19,15 +19,23 @@ export async function registerAccountWithGoogle(app: FastifyInstance) {
           code: z.string(),
         }),
         response: {
-          204: z.null(),
+          201: z.object({
+            message: z.literal('User created successfully'),
+          }),
           400: z.object({
             message: z.enum([
               'User info not found',
               'Invalid or expired authorization code',
+              'Validation error',
             ]),
+            errors: z
+              .object({
+                code: z.array(z.string()).optional(),
+              })
+              .optional(),
           }),
           500: z.object({
-            message: z.string(),
+            message: z.literal('Internal server error'),
           }),
         },
       },
@@ -41,9 +49,8 @@ export async function registerAccountWithGoogle(app: FastifyInstance) {
 
         const userInfo = await oauth2.userinfo.get({ auth: googleClient })
 
-        if (!userInfo.data.email || !userInfo.data.name || !userInfo.data.id) {
+        if (!userInfo.data.email || !userInfo.data.name || !userInfo.data.id)
           throw new BadRequestError('User info not found')
-        }
 
         const [existingUser] = await db
           .select()
@@ -71,7 +78,9 @@ export async function registerAccountWithGoogle(app: FastifyInstance) {
           avatarUrl: userInfo.data.picture,
         })
 
-        return res.status(204).send()
+        return res.status(201).send({
+          message: 'User created successfully',
+        })
       } catch (error) {
         if (error instanceof Error && 'response' in error) {
           const gaxiosError = error as unknown as {

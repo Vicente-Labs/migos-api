@@ -33,17 +33,22 @@ export async function getGroup(app: FastifyInstance) {
           }),
           response: {
             200: z.object({
-              message: z.literal('group fetched successfully'),
+              message: z.literal('Group fetched successfully'),
               group: groupSchema,
             }),
+            400: z.object({
+              message: z.string(),
+              errors: z
+                .object({
+                  groupId: z.array(z.string()).optional(),
+                })
+                .optional(),
+            }),
             401: z.object({
-              message: z.tuple([
-                z.literal('missing auth token'),
-                z.literal('invalid auth token'),
-              ]),
+              message: z.enum(['Missing auth token', 'Invalid token']),
             }),
             500: z.object({
-              message: z.string(),
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -65,7 +70,7 @@ export async function getGroup(app: FastifyInstance) {
 
         if (cannot('get', authGroup))
           throw new UnauthorizedError(
-            'you are not allowed to access this group',
+            'You are not allowed to access this group',
           )
 
         const formattedGroup = {
@@ -80,7 +85,7 @@ export async function getGroup(app: FastifyInstance) {
         }
 
         return res.status(200).send({
-          message: 'group fetched successfully',
+          message: 'Group fetched successfully',
           group: formattedGroup,
         })
       },

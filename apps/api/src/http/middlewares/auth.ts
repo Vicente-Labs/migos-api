@@ -11,9 +11,8 @@ import { UnauthorizedError } from '@/http/_errors/unauthorized-error'
 export const auth = fastifyPlugin(async (app: FastifyInstance) => {
   app.addHook('preHandler', async (req) => {
     req.getCurrentUserId = async () => {
-      if (!req.headers.authorization) {
-        throw new UnauthorizedError('missing auth token.')
-      }
+      if (!req.headers.authorization)
+        throw new UnauthorizedError('Missing auth token.')
 
       const token = req.headers.authorization
         .replace('Bearer ', '')
@@ -25,9 +24,7 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
         algorithms: ['HS256'],
       })
 
-      if (!payload.sub) {
-        throw new UnauthorizedError('invalid token.')
-      }
+      if (!payload.sub) throw new UnauthorizedError('Invalid token.')
 
       return { sub: payload.sub }
     }
@@ -57,12 +54,12 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
         .leftJoin(groups, eq(member.groupId, groups.id))
 
       if (!queriedMember) {
-        throw new UnauthorizedError(`you're not a member of this group.`)
+        throw new UnauthorizedError("You're not a member of this group")
       }
 
       const group = queriedMember.group
       if (!group || !group.name) {
-        throw new UnauthorizedError(`group name is required.`)
+        throw new UnauthorizedError('Group name is required')
       }
 
       return {

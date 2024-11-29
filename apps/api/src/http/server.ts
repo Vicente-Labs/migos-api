@@ -54,7 +54,13 @@ app.setErrorHandler(errorHandler)
 
 app.register(fastifySwagger, {
   openapi: {
-    servers: [{ url: 'https://api.migos.me' }],
+    servers: [
+      { url: 'https://api.migos.me', description: 'Production' },
+      {
+        url: `http://localhost:${env.BACKEND_PORT}`,
+        description: 'Development',
+      },
+    ],
     info: {
       title: 'Migos | API Specs',
       description: 'API documentation for Migos',

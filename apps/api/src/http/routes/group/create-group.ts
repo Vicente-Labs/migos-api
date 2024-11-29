@@ -31,16 +31,26 @@ export async function createGroup(app: FastifyInstance) {
           }),
           response: {
             201: z.object({
-              message: z.literal('group created successfully'),
+              message: z.literal('Group created successfully'),
+            }),
+            400: z.object({
+              message: z.string(),
+              errors: z
+                .object({
+                  name: z.array(z.string()).optional(),
+                  description: z.array(z.string()).optional(),
+                  budget: z.array(z.string()).optional(),
+                  avatarUrl: z.array(z.string()).optional(),
+                  endDate: z.array(z.string()).optional(),
+                  drawDate: z.array(z.string()).optional(),
+                })
+                .optional(),
             }),
             401: z.object({
-              message: z.tuple([
-                z.literal('missing auth token'),
-                z.literal('invalid auth token'),
-              ]),
+              message: z.enum(['Missing auth token', 'Invalid token']),
             }),
             500: z.object({
-              message: z.string(),
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -59,7 +69,7 @@ export async function createGroup(app: FastifyInstance) {
           .leftJoin(member, eq(users.id, member.userId))
 
         if (!user || user.length <= 0)
-          throw new BadRequestError('user not found')
+          throw new BadRequestError('User not found')
 
         const groupId = createId()
 
@@ -75,7 +85,7 @@ export async function createGroup(app: FastifyInstance) {
 
         if (cannot('create', authGroup))
           throw new BadRequestError(
-            `you cannot create more than ${user[0].groupsCount} groups`,
+            `You cannot create more than ${user[0].groupsCount} groups`,
           )
 
         const { name, description, budget, avatarUrl, endDate, drawDate } =
@@ -96,7 +106,7 @@ export async function createGroup(app: FastifyInstance) {
           .returning({ id: groups.id })
 
         return res.status(201).send({
-          message: 'group created successfully',
+          message: 'Group created successfully',
         })
       },
     )

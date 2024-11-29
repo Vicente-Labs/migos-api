@@ -23,20 +23,26 @@ export async function acceptInvite(app: FastifyInstance) {
           }),
           response: {
             201: z.object({
-              message: z.literal('invite accepted successfully'),
+              message: z.literal('Invite accepted successfully'),
               groupId: z.string(),
             }),
             400: z.object({
-              message: z.tuple([
-                z.literal(`invite not found or expired`),
-                z.literal('this invite belongs to another user'),
+              message: z.enum([
+                'Invite not found or expired',
+                'This invite belongs to another user',
+                'Validation error',
               ]),
+              errors: z
+                .object({
+                  inviteId: z.array(z.string()).optional(),
+                })
+                .optional(),
             }),
             401: z.object({
-              message: z.tuple([
-                z.literal('missing auth token.'),
-                z.literal('invalid auth token.'),
-              ]),
+              message: z.enum(['Missing auth token', 'Invalid token']),
+            }),
+            500: z.object({
+              message: z.literal('Internal server error'),
             }),
           },
         },
@@ -50,14 +56,14 @@ export async function acceptInvite(app: FastifyInstance) {
           .from(invites)
           .where(eq(invites.id, inviteId))
 
-        if (!invite) throw new BadRequestError('invite not found or expired')
+        if (!invite) throw new BadRequestError('Invite not found or expired')
 
         const [user] = await db.select().from(users).where(eq(users.id, userId))
 
         if (!user) throw new BadRequestError(`User not found`)
 
         if (invite.email !== user.email)
-          throw new BadRequestError('this invite belongs to another user')
+          throw new BadRequestError('This invite belongs to another user')
 
         await db.transaction(async (tx) => {
           await tx.insert(member).values({
@@ -69,7 +75,7 @@ export async function acceptInvite(app: FastifyInstance) {
         })
 
         return res.status(201).send({
-          message: 'invite accepted successfully',
+          message: 'Invite accepted successfully',
           groupId: invite.groupId,
         })
       },

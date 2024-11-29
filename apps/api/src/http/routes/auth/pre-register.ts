@@ -17,6 +17,17 @@ export async function preRegisterRoute(app: FastifyInstance) {
         body: z.object({
           email: z.string().email(),
         }),
+        response: {
+          201: z.object({
+            message: z.literal('User pre-registered successfully'),
+          }),
+          400: z.object({
+            message: z.literal('User already exists'),
+          }),
+          500: z.object({
+            message: z.literal('Internal server error'),
+          }),
+        },
       },
     },
     async (req, res) => {
