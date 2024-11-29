@@ -1,4 +1,4 @@
-app = "migos-api"
+app = "migos"
 primary_region = "bos"
 
 [build]
