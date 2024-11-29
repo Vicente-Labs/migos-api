@@ -1,0 +1,1 @@
+ALTER TABLE "groups" ADD COLUMN "times_matches_generated" integer DEFAULT 0 NOT NULL;

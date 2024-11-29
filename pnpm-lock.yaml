@@ -50,6 +50,9 @@ importers:
       drizzle-orm:
         specifier: ^0.36.3
         version: 0.36.3(@types/pg@8.11.10)(@types/react@18.3.12)(pg@8.13.1)(react@19.0.0-rc-380f5d67-20241113)
+      drizzle-seed:
+        specifier: 0.1.2
+        version: 0.1.2(drizzle-orm@0.36.3(@types/pg@8.11.10)(@types/react@18.3.12)(pg@8.13.1)(react@19.0.0-rc-380f5d67-20241113))
       fastify:
         specifier: ^4.28.1
         version: 4.28.1
@@ -78,6 +81,9 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
+      '@faker-js/faker':
+        specifier: ^9.2.0
+        version: 9.2.0
       '@migos/eslint-config':
         specifier: workspace:*
         version: link:../../config/eslint-config
@@ -920,6 +926,10 @@ packages:
   '@eslint/object-schema@2.1.4':
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@faker-js/faker@9.2.0':
+    resolution: {integrity: sha512-ulqQu4KMr1/sTFIYvqSdegHT8NIkt66tFAkugGnHA+1WAfEn6hMzNR+svjXGFRVLnapxvej67Z/LwchFrnLBUg==}
+    engines: {node: '>=18.0.0', npm: '>=9.0.0'}
 
   '@fastify/accept-negotiator@1.1.0':
     resolution: {integrity: sha512-OIHZrb2ImZ7XG85HXOONLcJWGosv7sIvM2ifAPQVhg9Lv7qdmMBNVaai4QTdyuaqbKM5eO6sLSQOYI7wEQeCJQ==}
@@ -2474,6 +2484,14 @@ packages:
       sql.js:
         optional: true
       sqlite3:
+        optional: true
+
+  drizzle-seed@0.1.2:
+    resolution: {integrity: sha512-F7+1tK/f5SHXK75ISH1zKUZWslW18dr9gbYB9tQHx7t5Wm82481OE5HGKFIjWuGV1VS0eFVr7+uXl8PFwPJjPA==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.4'
+    peerDependenciesMeta:
+      drizzle-orm:
         optional: true
 
   eastasianwidth@0.2.0:
@@ -4216,6 +4234,9 @@ packages:
     resolution: {integrity: sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==}
     engines: {node: '>=6'}
 
+  pure-rand@6.1.0:
+    resolution: {integrity: sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA==}
+
   qs@6.13.1:
     resolution: {integrity: sha512-EJPeIn0CYrGu+hli1xilKAPXODtJ12T0sP63Ijx2/khC2JtuaN3JyNIpvmnkmaEtha9ocbG4A4cMcr+TvqvwQg==}
     engines: {node: '>=0.6'}
@@ -5324,6 +5345,8 @@ snapshots:
   '@eslint/js@9.9.0': {}
 
   '@eslint/object-schema@2.1.4': {}
+
+  '@faker-js/faker@9.2.0': {}
 
   '@fastify/accept-negotiator@1.1.0': {}
 
@@ -6784,6 +6807,12 @@ snapshots:
       '@types/react': 18.3.12
       pg: 8.13.1
       react: 19.0.0-rc-380f5d67-20241113
+
+  drizzle-seed@0.1.2(drizzle-orm@0.36.3(@types/pg@8.11.10)(@types/react@18.3.12)(pg@8.13.1)(react@19.0.0-rc-380f5d67-20241113)):
+    dependencies:
+      pure-rand: 6.1.0
+    optionalDependencies:
+      drizzle-orm: 0.36.3(@types/pg@8.11.10)(@types/react@18.3.12)(pg@8.13.1)(react@19.0.0-rc-380f5d67-20241113)
 
   eastasianwidth@0.2.0: {}
 
@@ -9230,6 +9259,8 @@ snapshots:
       once: 1.4.0
 
   punycode@2.3.0: {}
+
+  pure-rand@6.1.0: {}
 
   qs@6.13.1:
     dependencies:

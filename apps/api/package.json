@@ -22,6 +22,7 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.36.3",
+    "drizzle-seed": "0.1.2",
     "fastify": "^4.28.1",
     "fastify-plugin": "^4.5.1",
     "fastify-type-provider-zod": "^2.0.0",
@@ -33,6 +34,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.2.0",
     "@migos/eslint-config": "workspace:*",
     "@migos/prettier": "workspace:*",
     "@migos/tsconfig": "workspace:*",
