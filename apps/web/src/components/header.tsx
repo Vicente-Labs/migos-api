@@ -2,13 +2,13 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useState } from 'react'
 
+// import { useState } from 'react'
 import { MobileHeader } from './mobile-header'
-import { MobileHeaderDrawer } from './mobile-header-drawer'
+// import { MobileHeaderDrawer } from './mobile-header-drawer'
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false)
+  // const [isOpen, setIsOpen] = useState(false)
 
   return (
     <>
@@ -29,9 +29,9 @@ export default function Header() {
         </motion.div>
       </motion.header>
 
-      <MobileHeader setIsOpen={setIsOpen} />
+      <MobileHeader />
 
-      <MobileHeaderDrawer isOpen={isOpen} setIsOpen={setIsOpen} />
+      {/* <MobileHeaderDrawer isOpen={isOpen} setIsOpen={setIsOpen} /> */}
     </>
   )
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { CheckCircle2, XCircle } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
@@ -30,68 +30,6 @@ export function PricingSection() {
               $0{' '}
               <span className="-ml-4 text-base md:-ml-6 md:text-lg">
                 / forever
-              </span>
-            </span>
-          </div>
-
-          <div className="flex flex-col text-background">
-            <ul className="space-y-2">
-              <li className="flex flex-row items-center gap-2">
-                <CheckCircle2 className="size-4" />
-                {dictionary.upTo2Groups}
-              </li>
-
-              <li className="flex flex-row items-center gap-2">
-                <CheckCircle2 className="size-4" />
-                {dictionary.upTo5MembersPerGroup}
-              </li>
-
-              <li className="flex flex-row items-center gap-2 text-[#B8BBB3] line-through">
-                <XCircle className="size-4" />
-                {dictionary.personalizedAnnouncements}
-              </li>
-
-              <li className="flex flex-row items-center gap-2 text-[#B8BBB3] line-through">
-                <XCircle className="size-4" />
-                {dictionary.calendarSync}
-              </li>
-
-              <li className="flex flex-row items-center gap-2 text-[#B8BBB3] line-through">
-                <XCircle className="size-4" />
-                {dictionary.giftSuggestions}
-              </li>
-
-              <li className="flex flex-row items-center gap-2 text-[#B8BBB3] line-through">
-                <XCircle className="size-4" />
-                {dictionary.reroll}
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="w-full">
-          <Button
-            onClick={() => {
-              toast.error(`We're not launched yet.`)
-            }}
-            className="w-full border border-primary bg-background text-lg font-bold text-primary hover:bg-background/90 md:text-xl"
-          >
-            {dictionary.getStarted}
-          </Button>
-        </div>
-      </div>
-
-      <div className="flex w-full flex-col gap-12 rounded-lg bg-primary p-8 md:h-[520px] md:w-[476px] md:gap-20 md:p-14">
-        <div>
-          <div>
-            <h1 className="text-4xl text-background md:text-5xl">
-              {dictionary.pro}
-            </h1>
-
-            <span className="text-6xl text-background md:text-8xl">
-              $6{' '}
-              <span className="-ml-4 text-base md:-ml-6 md:text-lg">
-                / month
               </span>
             </span>
           </div>
@@ -138,7 +76,7 @@ export function PricingSection() {
             }}
             className="w-full border border-primary bg-background text-lg font-bold text-primary hover:bg-background/90 md:text-xl"
           >
-            {dictionary.getPro}
+            {dictionary.getStarted}
           </Button>
         </div>
       </div>

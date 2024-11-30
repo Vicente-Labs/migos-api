@@ -1,28 +1,28 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { MenuIcon } from 'lucide-react'
+// import { MenuIcon } from 'lucide-react'
 import Link from 'next/link'
 
-import { Button } from './ui/button'
+// import { Button } from './ui/button'
 
-type MobileHeaderProps = {
-  setIsOpen: (isOpen: boolean) => void
-}
+// type MobileHeaderProps = {
+//   setIsOpen: (isOpen: boolean) => void
+// }
 
-export function MobileHeader({ setIsOpen }: MobileHeaderProps) {
+export function MobileHeader() {
   return (
     <motion.header
-      className="m-10 flex items-center justify-between p-4 font-poppins md:hidden"
+      className="m-10 flex items-center justify-center p-4 font-poppins md:hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.3 }}
     >
-      <Link href="/" className="text-3xl font-semibold">
+      <Link href="/" className="font-cooperBlack text-3xl font-semibold">
         migos
       </Link>
 
-      <div className="flex items-center">
+      {/* <div className="flex items-center">
         <Button
           variant="ghost"
           className="text-xl font-medium"
@@ -31,7 +31,7 @@ export function MobileHeader({ setIsOpen }: MobileHeaderProps) {
           <MenuIcon />
           <span className="sr-only">menu</span>
         </Button>
-      </div>
+      </div> */}
     </motion.header>
   )
 }

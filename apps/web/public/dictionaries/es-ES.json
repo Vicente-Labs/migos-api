@@ -31,7 +31,7 @@
   "hours": "Horas",
   "minutes": "Minutos",
   "seconds": "Segundos",
-  "preRegister": "Pre-registrar",
+  "preRegister": "pre-registrar",
   "email": "Email",
   "preRegisterCTA": "He oído que quienes se pre-registren obtendrán un 30% de descuento en su primer mes y un 10% de descuento de por vida después, es verdad?",
   "mobilePreRegisterCTA": "He oído que quienes se pre-registren obtendrán un 30% de descuento en su primer mes y un 10% de descuento de por vida después, y también hay muchos más beneficios para los primeros usuarios, ¿es eso cierto?",
@@ -48,5 +48,11 @@
   "theMigosTeam": "El Equipo de Migos",
   "preRegisterError": "Ocurrió un error al pre-registrar. Por favor, inténtelo de nuevo.",
   "userAlreadyExists": "Usuario ya pre-registrado",
-  "preRegisterIsNotAvailableYet": "Pre-register is not available yet"
+  "preRegisterIsNotAvailableYet": "Pre-register is not available yet",
+  "betaAccessAndProgressUpdates": "Acceso Beta y Progreso de la actualizaciónes",
+  "earlyAccessToNewFeatures": "Obtén acceso anticipado a nuevas funciones antes que nadie y mantente actualizado sobre el progreso del desarrollo a través de nuestro programa beta exclusivo.",
+  "featureRequest": "Prioridad en solicitaciones de nuevas funcionalidades",
+  "shapeTheFutureOfMigos": "Da forma al futuro de Migos teniendo prioridad en tus solicitudes de funciones. Tus comentarios influirán directamente en nuestra hoja de ruta de desarrollo.",  
+  "pioneerBenefits": "Beneficios exclusivos de Pionero",
+  "receivePioneerBenefits": "Recibe una insignia de pionero única, un rol exclusivo en Discord y fácil acceso a nuestro equipo."
 }

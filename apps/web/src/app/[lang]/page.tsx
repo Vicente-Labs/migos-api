@@ -285,7 +285,7 @@ export default function Home() {
         <div className="hidden lg:block lg:flex-1">
           <Carousel
             className="w-full"
-            opts={{ loop: true, dragFree: true }}
+            opts={{ loop: true, dragFree: false }}
             plugins={[
               Autoplay({
                 delay: 3400,
@@ -298,40 +298,36 @@ export default function Home() {
               <CarouselItem className="flex aspect-square items-center justify-center rounded-lg bg-primary/5 p-4 sm:p-6">
                 <div className="text-center">
                   <h3 className="text-xl font-bold sm:text-2xl">
-                    Beta Access & Progress Updates
+                    {dictionary.betaAccessAndProgressUpdates}
                   </h3>
                   <p className="mt-2 font-poppins text-sm sm:text-base">
-                    Get early access to new features before anyone else and stay
-                    updated on development progress through our exclusive beta
-                    program.
+                    {dictionary.earlyAccessToNewFeatures}
                   </p>
                 </div>
               </CarouselItem>
               <CarouselItem className="flex aspect-square items-center justify-center rounded-lg bg-primary/5 p-4 sm:p-6">
                 <div className="text-center">
                   <h3 className="text-xl font-bold sm:text-2xl">
-                    Special Pioneer Discounts
+                    {dictionary.featureRequest}
                   </h3>
                   <p className="mt-2 font-poppins text-sm sm:text-base">
-                    Enjoy 30% off in your first month and a lifetime 10%
-                    discount afterwards.
+                    {dictionary.shapeTheFutureOfMigos}
                   </p>
                 </div>
               </CarouselItem>
               <CarouselItem className="flex aspect-square items-center justify-center rounded-lg bg-primary/5 p-4 sm:p-6">
                 <div className="text-center">
                   <h3 className="text-xl font-bold sm:text-2xl">
-                    Exclusive Pioneer Benefits
+                    {dictionary.pioneerBenefits}
                   </h3>
                   <p className="mt-2 font-poppins text-sm sm:text-base">
-                    Receive a unique Pioneer Badge, exclusive Discord role, and
-                    easy access to our founding team.
+                    {dictionary.receivePioneerBenefits}
                   </p>
                 </div>
               </CarouselItem>
             </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex" />
-            <CarouselNext className="hidden sm:flex" />
+            <CarouselPrevious className="hidden xl:flex" />
+            <CarouselNext className="hidden xl:flex" />
           </Carousel>
         </div>
       </div>

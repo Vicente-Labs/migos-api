@@ -9,7 +9,7 @@ import { AnimatedLink } from './animated-link'
 export function Footer() {
   return (
     <motion.footer
-      className="m-4 flex flex-col items-center justify-between gap-6 font-poppins md:m-10 md:flex-row md:gap-4"
+      className="m-4 flex flex-col items-center justify-between gap-6 pt-10 font-poppins md:m-10 md:flex-row md:gap-4"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
