@@ -1,6 +1,7 @@
 {
   "name": "@migos/api",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "env:load": "dotenv -e ../../.env --",
     "dev": "pnpm env:load tsx watch src/http/server.ts",
