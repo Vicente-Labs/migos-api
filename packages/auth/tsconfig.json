@@ -1,4 +1,0 @@
-{
-  "extends": "@migos/tsconfig/library.json",
-  "include": ["src/**/*"]
-}
