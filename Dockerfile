@@ -53,4 +53,4 @@ EXPOSE 3333
 ENV PORT=3333
 ENV HOSTNAME="0.0.0.0"
 
-ENTRYPOINT ["node", "server.js"]
+ENTRYPOINT ["node", "http/server.js"]

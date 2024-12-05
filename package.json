@@ -10,7 +10,7 @@
     "db:studio": "pnpm env:load drizzle-kit studio",
     "db:seed": "pnpm env:load tsx src/db/seed.ts",
     "build": "tsup",
-    "start": "pnpm db:migrate && node dist/http/server.js"
+    "start": "node dist/http/server.js"
   },
   "dependencies": {
     "@casl/ability": "^6.7.2",
@@ -36,10 +36,12 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.2.0",
+    "@rocketseat/eslint-config": "^2.2.2",
     "@types/node": "^20",
     "@types/pg": "^8.11.10",
     "dotenv-cli": "^7.4.2",
     "drizzle-kit": "^0.28.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "tsup": "^8.3.5",
     "tsx": "^4.17.0",
     "typescript": "^5.4.5"
