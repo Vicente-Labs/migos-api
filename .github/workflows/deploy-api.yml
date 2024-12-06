@@ -14,21 +14,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install PNPM
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          version: 9
-          run_install: false
+          bun-version: latest
 
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
+          cache: "bun"
 
       - name: Install dependencies
         working-directory: ./infra
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4

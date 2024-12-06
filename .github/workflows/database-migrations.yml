@@ -14,20 +14,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install PNPM
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          version: 9
-          run_install: false
+          bun-version: latest
 
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
+          cache: "bun"
 
       - name: Install dependencies
-        run: pnpm install
+        run: bun install --frozen-lockfile
 
       - uses: Infisical/secrets-action@v1.0.7
         with:
@@ -38,4 +37,4 @@ jobs:
           export-type: "file"
 
       - name: Run migrations
-        run: pnpm run db:migrate
+        run: bun run db:migrate
