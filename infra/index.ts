@@ -161,10 +161,6 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
           valueFrom: '/migos/prod/JWT_SECRET',
         },
         {
-          name: 'BACKEND_PORT',
-          valueFrom: '/migos/prod/BACKEND_PORT',
-        },
-        {
           name: 'DATABASE_URL',
           valueFrom: '/migos/prod/DATABASE_URL',
         },
