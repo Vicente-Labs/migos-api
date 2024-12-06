@@ -8,6 +8,9 @@ const envSchema = z.object({
   GOOGLE_CLIENT_SECRET: z.string(),
   GOOGLE_REDIRECT_URI: z.string().url(),
   HOST: z.string().default('0.0.0.0'),
+  NODE_ENV: z
+    .enum(['development', 'production', 'test'])
+    .default('development'),
 })
 
 export const env = envSchema.parse(process.env)

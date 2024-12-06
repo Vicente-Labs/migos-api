@@ -8,13 +8,13 @@ export async function generateMatchesFn(members: Members) {
 
   const matches: { giverId: string; receiverId: string }[] = []
   const usedReceivers = new Set<string>()
-
-  const shuffleArray = [...members]
+  let shuffleArray = [...members]
 
   while (attempts < maxAttempts) {
     try {
       matches.length = 0
       usedReceivers.clear()
+      shuffleArray = [...members]
 
       for (let i = shuffleArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
@@ -55,8 +55,10 @@ export async function generateMatchesFn(members: Members) {
           'Unable to generate valid matches after maximum attempts',
         )
       }
+      shuffleArray.length = 0
     }
   }
 
+  shuffleArray.length = 0
   throw new Error('Unable to generate matches')
 }

@@ -177,6 +177,12 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
           valueFrom: '/migos/prod/GOOGLE_REDIRECT_URI',
         },
       ],
+      environment: [
+        {
+          name: 'NODE_ENV',
+          value: 'production',
+        },
+      ],
       memoryReservation: 256,
       healthCheck: {
         command: [
