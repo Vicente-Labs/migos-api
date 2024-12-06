@@ -64,10 +64,10 @@ const targetGroup = loadBalancer.createTargetGroup('aws-host-target-group', {
   healthCheck: {
     path: '/health',
     protocol: 'HTTP',
-    interval: 10,
-    healthyThreshold: 3,
+    interval: 30, // Increased from 10 to give more time between checks
+    healthyThreshold: 2, // Reduced from 3 to make it easier to become healthy
     unhealthyThreshold: 3,
-    timeout: 5,
+    timeout: 10, // Increased from 5 to allow more time for response
   },
 })
 
@@ -147,7 +147,7 @@ const executionRole = new aws.iam.Role('aws-workshop-execution-role', {
 const app = new awsx.classic.ecs.FargateService('aws-host-app', {
   cluster,
   desiredCount: 1,
-  waitForSteadyState: false,
+  waitForSteadyState: true, // Changed to true to ensure service is stable before continuing
   taskDefinitionArgs: {
     executionRole,
     container: {
@@ -189,10 +189,10 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
           'CMD-SHELL',
           'curl -f http://localhost:3333/health || exit 1',
         ],
-        interval: 30,
-        timeout: 5,
-        retries: 3,
-        startPeriod: 60,
+        interval: 60, // Increased from 30 to give more startup time
+        timeout: 10, // Increased from 5 to allow more time for response
+        retries: 5, // Increased from 3 to give more chances to pass
+        startPeriod: 120, // Increased from 60 to give more time for initial startup
       },
     },
   },
