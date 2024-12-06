@@ -34,7 +34,7 @@ jobs:
         with:
           command: up
           work-dir: ./infra
-          stack-name: dev
+          stack-name: production
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           PULUMI_CONFIG_PASSPHRASE: ""
