@@ -1,0 +1,10 @@
+name: migos-api
+description: API for Migos, the ultimate tolls for friends and groups
+runtime:
+  name: nodejs
+  options:
+    packagemanager: pnpm
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-typescript
