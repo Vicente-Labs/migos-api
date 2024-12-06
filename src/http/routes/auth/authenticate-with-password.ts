@@ -1,4 +1,4 @@
-import * as bcryptjs from 'bcryptjs'
+import { compare } from 'bcryptjs'
 import { eq } from 'drizzle-orm'
 import { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
@@ -58,7 +58,7 @@ export async function authenticateWithPassword(app: FastifyInstance) {
         return res.status(401).send({ message: 'Invalid credentials' })
       }
 
-      const passwordIsValid = await bcryptjs.compare(password, user.passwordHash)
+      const passwordIsValid = await compare(password, user.passwordHash)
 
       if (!passwordIsValid) {
         return res.status(401).send({ message: 'Invalid credentials' })

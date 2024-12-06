@@ -1,4 +1,4 @@
-import * as bcryptjs from 'bcryptjs'
+import { hash } from 'bcryptjs'
 import { eq } from 'drizzle-orm'
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
@@ -62,7 +62,7 @@ export async function registerAccountWithPassword(app: FastifyInstance) {
       if (userWithSameEmail && userWithSameEmail.length > 0)
         throw new BadRequestError('User with same email already exists')
 
-      const passwordHash = await bcryptjs.hash(password, 8)
+      const passwordHash = await hash(password, 8)
 
       await db.insert(users).values({
         email: email.toLowerCase(),
