@@ -89,6 +89,14 @@ app.register(fastifyJwt, {
 
 app.register(fastifyCors) // any front-end can access this API
 
+app.get('/health', async (_req, res) => {
+  return res.status(200).send({
+    status: 'healthy',
+    uptime: process.uptime(),
+    timestamp: Date.now(),
+  })
+})
+
 app.register(registerAccountWithPassword)
 app.register(registerAccountWithGoogle)
 app.register(authenticateWithPassword)

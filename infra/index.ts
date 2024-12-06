@@ -68,6 +68,7 @@ const targetGroup = loadBalancer.createTargetGroup('aws-host-target-group', {
     unhealthyThreshold: 3,
     timeout: 5,
     interval: 10,
+    matcher: '200',
   },
 })
 
