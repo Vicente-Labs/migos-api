@@ -127,6 +127,13 @@
       "when": 1732900773131,
       "tag": "20241129171933_add-primary-key-on-member-and-index",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1733498762588,
+      "tag": "20241206152602_add-language-to-pre-register",
+      "breakpoints": true
     }
   ]
 }

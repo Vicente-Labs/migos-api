@@ -16,6 +16,7 @@ export async function preRegisterRoute(app: FastifyInstance) {
         summary: 'Pre-register with email',
         body: z.object({
           email: z.string().email(),
+          language: z.enum(['en-US', 'pt-BR', 'es-ES']),
         }),
         response: {
           201: z.object({
@@ -31,7 +32,7 @@ export async function preRegisterRoute(app: FastifyInstance) {
       },
     },
     async (req, res) => {
-      const { email } = req.body
+      const { email, language } = req.body
 
       const existingUser = await db
         .select()
@@ -43,6 +44,7 @@ export async function preRegisterRoute(app: FastifyInstance) {
 
       await db.insert(preRegisters).values({
         email: email.toLowerCase(),
+        language,
       })
 
       return res.status(200).send({
