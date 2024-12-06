@@ -19,12 +19,6 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "bun"
-
       - name: Install dependencies
         working-directory: ./infra
         run: bun install --frozen-lockfile
