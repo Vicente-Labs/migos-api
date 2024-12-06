@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "env:load": "dotenv -e .env --",
-    "dev": "pnpm env:load tsx watch src/http/server.ts",
-    "db:generate": "pnpm env:load drizzle-kit generate --name",
-    "db:migrate": "pnpm env:load drizzle-kit migrate",
-    "db:studio": "pnpm env:load drizzle-kit studio",
-    "db:seed": "pnpm env:load tsx src/db/seed.ts",
+    "dev": "bun env:load tsx watch src/http/server.ts",
+    "db:generate": "bun env:load drizzle-kit generate --name",
+    "db:migrate": "bun env:load drizzle-kit migrate",
+    "db:studio": "bun env:load drizzle-kit studio",
+    "db:seed": "bun env:load tsx src/db/seed.ts",
     "build": "tsup",
     "start": "node dist/http/server.js"
   },
