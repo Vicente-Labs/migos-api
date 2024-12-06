@@ -10,6 +10,29 @@ const zone = cloudflare.getZone({
 
 const cluster = new awsx.classic.ecs.Cluster('aws-host-cluster')
 
+const certificate = new aws.acm.Certificate('aws-host-certificate', {
+  domainName: 'api.migos.me',
+  validationMethod: 'DNS',
+})
+
+const certificateValidation = new cloudflare.Record(
+  'aws-host-certificate-validation',
+  {
+    name: certificate.domainValidationOptions[0].resourceRecordName,
+    type: certificate.domainValidationOptions[0].resourceRecordType,
+    zoneId: zone.then((zone) => zone.id),
+    value: certificate.domainValidationOptions[0].resourceRecordValue,
+  },
+)
+
+const certificateValidationToken = new aws.acm.CertificateValidation(
+  'aws-host-certificate-validation',
+  {
+    certificateArn: certificate.arn,
+    validationRecordFqdns: [certificateValidation.hostname],
+  },
+)
+
 const loadBalancer = new awsx.classic.lb.ApplicationLoadBalancer(
   'aws-host-lb',
   {
@@ -53,6 +76,7 @@ const httpsListener = loadBalancer.createListener('aws-host-https-listener', {
   targetGroup,
   protocol: 'HTTPS',
   sslPolicy: 'ELBSecurityPolicy-2016-08',
+  certificateArn: certificateValidationToken.certificateArn,
 })
 
 const repository = new awsx.ecr.Repository('aws-host-repository', {
