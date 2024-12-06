@@ -20,8 +20,8 @@ const certificateValidation = new cloudflare.Record(
   {
     name: certificate.domainValidationOptions[0].resourceRecordName,
     type: certificate.domainValidationOptions[0].resourceRecordType,
-    zoneId: zone.then((zone) => zone.id),
     value: certificate.domainValidationOptions[0].resourceRecordValue,
+    zoneId: zone.then((zone) => zone.id),
   },
 )
 
@@ -183,17 +183,6 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
           value: 'production',
         },
       ],
-      memoryReservation: 256,
-      healthCheck: {
-        command: [
-          'CMD-SHELL',
-          'curl -f http://localhost:3333/health || exit 1',
-        ],
-        interval: 30,
-        timeout: 5,
-        retries: 3,
-        startPeriod: 60,
-      },
     },
   },
 })
