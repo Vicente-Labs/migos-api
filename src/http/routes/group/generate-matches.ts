@@ -1,9 +1,9 @@
-import { groupSchema } from '@/auth'
 import { eq } from 'drizzle-orm'
 import type { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
+import { groupSchema } from '@/auth'
 import { db } from '@/db'
 import { member, users } from '@/db/schemas'
 import { BadRequestError } from '@/http/_errors/bad-request-errors'
@@ -67,7 +67,6 @@ export async function generateMatches(app: FastifyInstance) {
         const authGroup = groupSchema.parse({
           id: group.id,
           ownerId: group.ownerId,
-          ownerPlan: owner[0].plan,
           isMember: true,
           role: membership,
           membersCount: 0, // irrelevant for auth package so we won't spend bandwidth with this db query

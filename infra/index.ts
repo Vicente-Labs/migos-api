@@ -64,11 +64,10 @@ const targetGroup = loadBalancer.createTargetGroup('aws-host-target-group', {
   healthCheck: {
     path: '/health',
     protocol: 'HTTP',
+    interval: 10,
     healthyThreshold: 3,
     unhealthyThreshold: 3,
     timeout: 5,
-    interval: 10,
-    matcher: '200',
   },
 })
 
@@ -178,6 +177,17 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
           valueFrom: '/migos/prod/GOOGLE_REDIRECT_URI',
         },
       ],
+      memoryReservation: 256,
+      healthCheck: {
+        command: [
+          'CMD-SHELL',
+          'curl -f http://localhost:3333/health || exit 1',
+        ],
+        interval: 30,
+        timeout: 5,
+        retries: 3,
+        startPeriod: 60,
+      },
     },
   },
 })

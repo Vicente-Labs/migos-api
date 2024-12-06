@@ -48,36 +48,52 @@ export async function acceptInvite(app: FastifyInstance) {
         },
       },
       async (req, res) => {
-        const { sub: userId } = await req.getCurrentUserId()
-        const { inviteId } = req.params
+        try {
+          const { sub: userId } = await req.getCurrentUserId()
+          const { inviteId } = req.params
 
-        const [invite] = await db
-          .select()
-          .from(invites)
-          .where(eq(invites.id, inviteId))
+          const [{ invite, user }] = await db.transaction(async (tx) => {
+            const [invite] = await tx
+              .select()
+              .from(invites)
+              .where(eq(invites.id, inviteId))
 
-        if (!invite) throw new BadRequestError('Invite not found or expired')
+            if (!invite) {
+              throw new BadRequestError('Invite not found or expired')
+            }
 
-        const [user] = await db.select().from(users).where(eq(users.id, userId))
+            const [user] = await tx
+              .select()
+              .from(users)
+              .where(eq(users.id, userId))
 
-        if (!user) throw new BadRequestError(`User not found`)
+            if (!user) throw new BadRequestError('User not found')
 
-        if (invite.email !== user.email)
-          throw new BadRequestError('This invite belongs to another user')
-
-        await db.transaction(async (tx) => {
-          await tx.insert(member).values({
-            userId,
-            groupId: invite.groupId,
+            return [{ invite, user }]
           })
 
-          await tx.delete(invites).where(eq(invites.id, inviteId))
-        })
+          if (invite.email !== user.email)
+            throw new BadRequestError('This invite belongs to another user')
 
-        return res.status(201).send({
-          message: 'Invite accepted successfully',
-          groupId: invite.groupId,
-        })
+          await db.transaction(async (tx) => {
+            await tx.insert(member).values({
+              userId,
+              groupId: invite.groupId,
+            })
+
+            await tx.delete(invites).where(eq(invites.id, inviteId))
+          })
+
+          return res.status(201).send({
+            message: 'Invite accepted successfully',
+            groupId: invite.groupId,
+          })
+        } catch (error) {
+          if (error instanceof BadRequestError) {
+            throw error
+          }
+          throw new Error('Failed to accept invite')
+        }
       },
     )
 }

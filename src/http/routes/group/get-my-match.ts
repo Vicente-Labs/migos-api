@@ -3,13 +3,13 @@ import type { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
+import { groupSchema } from '@/auth'
 import { db } from '@/db'
 import { groups, member, users } from '@/db/schemas'
 import { NotFoundError } from '@/http/_errors/not-found-error'
 import { UnauthorizedError } from '@/http/_errors/unauthorized-error'
 import { auth } from '@/http/middlewares/auth'
 import { getUserPermissions } from '@/utils/get-user-permissions'
-import { groupSchema } from '@/auth'
 
 const matchSchema = z.object({
   userId: z.string(),
@@ -71,7 +71,6 @@ export async function getMyMatch(app: FastifyInstance) {
         const authGroup = groupSchema.parse({
           id: group.id,
           ownerId: userId,
-          ownerPlan: 'BASIC', // irrelevant so we won't spend bandwidth with this db query
           isMember: true,
           role: membership,
           membersCount: 0, // irrelevant to auth package, our route must handle it

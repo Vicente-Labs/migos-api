@@ -4,12 +4,12 @@ import type { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
+import { groupSchema } from '@/auth'
 import { db } from '@/db'
 import { groups, member, users } from '@/db/schemas'
 import { BadRequestError } from '@/http/_errors/bad-request-errors'
 import { auth } from '@/http/middlewares/auth'
 import { getUserPermissions } from '@/utils/get-user-permissions'
-import { groupSchema } from '@/auth'
 
 export async function createGroup(app: FastifyInstance) {
   app
@@ -84,7 +84,6 @@ export async function createGroup(app: FastifyInstance) {
         const authGroup = groupSchema.parse({
           id: randomCUID,
           ownerId: userId,
-          ownerPlan: user[0].plan,
           isMember: true,
           role: 'MEMBER', // irrelevant so we won't spend bandwidth with this db query
           membersCount: 0,

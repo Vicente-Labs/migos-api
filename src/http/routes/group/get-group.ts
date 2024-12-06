@@ -1,9 +1,9 @@
-import { groupSchema as authGroupSchema } from '@/auth'
 import { count, eq } from 'drizzle-orm'
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
+import { groupSchema as authGroupSchema } from '@/auth'
 import { db } from '@/db'
 import { member } from '@/db/schemas'
 import { UnauthorizedError } from '@/http/_errors/unauthorized-error'
@@ -77,7 +77,6 @@ export async function getGroup(app: FastifyInstance) {
           isMember: true,
           isOwner: group.ownerId === userId,
           role: membership,
-          ownerPlan: 'BASIC', // forcing BASIC plan cuz its irrelevant in this context, and we don't wanna to spend bandwidth with irrelevant db queries
         })
 
         if (cannot('get', authGroup))

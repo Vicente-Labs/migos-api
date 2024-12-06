@@ -6,19 +6,27 @@ export async function generateMatchesFn(members: Members) {
   let attempts = 0
   const maxAttempts = 100
 
+  const matches: { giverId: string; receiverId: string }[] = []
+  const usedReceivers = new Set<string>()
+
+  const shuffleArray = [...members]
+
   while (attempts < maxAttempts) {
     try {
-      const shuffledMembers = [...members].sort(() => Math.random() - 0.5)
-      const matches: { giverId: string; receiverId: string }[] = []
-      const usedReceivers = new Set<string>()
+      matches.length = 0
+      usedReceivers.clear()
 
-      for (let i = 0; i < shuffledMembers.length; i++) {
-        const giver = shuffledMembers[i]
+      for (let i = shuffleArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[shuffleArray[i], shuffleArray[j]] = [shuffleArray[j], shuffleArray[i]]
+      }
+
+      for (let i = 0; i < shuffleArray.length; i++) {
+        const giver = shuffleArray[i]
         let receiver = null
 
-        // Find a valid receiver that isn't the giver and hasn't been used
-        for (let j = 0; j < shuffledMembers.length; j++) {
-          const potentialReceiver = shuffledMembers[j]
+        for (let j = 0; j < shuffleArray.length; j++) {
+          const potentialReceiver = shuffleArray[j]
           if (
             potentialReceiver.userId !== giver.userId &&
             !usedReceivers.has(potentialReceiver.userId)
@@ -29,7 +37,6 @@ export async function generateMatchesFn(members: Members) {
         }
 
         if (!receiver) {
-          // If we couldn't find a valid receiver, start over
           throw new Error('Invalid matching configuration')
         }
 
@@ -40,7 +47,7 @@ export async function generateMatchesFn(members: Members) {
         usedReceivers.add(receiver.userId)
       }
 
-      return { matches }
+      return { matches: Array.from(matches) }
     } catch (error) {
       attempts++
       if (attempts >= maxAttempts) {

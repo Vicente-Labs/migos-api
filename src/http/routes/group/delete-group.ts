@@ -1,11 +1,11 @@
-import { groupSchema } from '@/auth/models/group'
 import { eq } from 'drizzle-orm'
 import type { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
+import { groupSchema } from '@/auth/models/group'
 import { db } from '@/db'
-import { groups } from '@/db/schemas'
+import { groups, member } from '@/db/schemas'
 import { UnauthorizedError } from '@/http/_errors/unauthorized-error'
 import { auth } from '@/http/middlewares/auth'
 import { getUserPermissions } from '@/utils/get-user-permissions'
@@ -50,34 +50,43 @@ export async function deleteGroup(app: FastifyInstance) {
         },
       },
       async (req, res) => {
-        const { groupId } = req.params
+        try {
+          const { groupId } = req.params
+          const { sub: userId } = await req.getCurrentUserId()
+          const { group, membership } = await req.getUserMembership(groupId)
 
-        const { sub: userId } = await req.getCurrentUserId()
-        const { group, membership } = await req.getUserMembership(groupId)
+          const { cannot } = getUserPermissions(userId, membership)
 
-        const { cannot } = getUserPermissions(userId, membership)
+          const authGroup = groupSchema.parse({
+            id: group.id,
+            ownerId: group.ownerId,
+            isMember: true,
+            role: membership,
+            membersCount: 1, // irrelevant so we won't spend bandwidth with this db query
+            userGroupsCount: 1, // irrelevant so we won't spend bandwidth with this db query
+            timesMatchesGenerated: 0, // irrelevant so we won't spend bandwidth with this db query
+          })
 
-        const authGroup = groupSchema.parse({
-          id: group.id,
-          ownerId: group.ownerId,
-          ownerPlan: 'BASIC', // irrelevant so we won't spend bandwidth with this db query
-          isMember: true,
-          role: membership,
-          membersCount: 1, // irrelevant so we won't spend bandwidth with this db query
-          userGroupsCount: 1, // irrelevant so we won't spend bandwidth with this db query
-          timesMatchesGenerated: 0, // irrelevant so we won't spend bandwidth with this db query
-        })
+          if (cannot('delete', authGroup)) {
+            throw new UnauthorizedError(
+              'You are not allowed to delete this group',
+            )
+          }
 
-        if (cannot('delete', authGroup))
-          throw new UnauthorizedError(
-            'You are not allowed to delete this group',
-          )
+          await db.transaction(async (tx) => {
+            await tx.delete(member).where(eq(member.groupId, groupId))
+            await tx.delete(groups).where(eq(groups.id, groupId))
+          })
 
-        await db.delete(groups).where(eq(groups.id, groupId))
-
-        return res.status(200).send({
-          message: 'Group deleted successfully',
-        })
+          return res.status(200).send({
+            message: 'Group deleted successfully',
+          })
+        } catch (error) {
+          if (error instanceof UnauthorizedError) {
+            throw error
+          }
+          throw new Error('Failed to delete group')
+        }
       },
     )
 }

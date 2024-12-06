@@ -19,14 +19,21 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
         .trim()
         .replace(/^,\s*/, '')
 
-      const secretKey = new TextEncoder().encode(env.JWT_SECRET)
-      const { payload } = await jose.jwtVerify(token, secretKey, {
-        algorithms: ['HS256'],
-      })
+      try {
+        const secretKey = new TextEncoder().encode(env.JWT_SECRET)
+        const { payload } = await jose.jwtVerify(token, secretKey, {
+          algorithms: ['HS256'],
+        })
 
-      if (!payload.sub) throw new UnauthorizedError('Invalid token')
+        if (!payload.sub) throw new UnauthorizedError('Invalid token')
 
-      return { sub: payload.sub }
+        return { sub: payload.sub }
+      } catch (error) {
+        if (error instanceof jose.errors.JWTExpired) {
+          throw new UnauthorizedError('Token expired')
+        }
+        throw new UnauthorizedError('Invalid token')
+      }
     }
 
     req.getUserMembership = async (id: string) => {
