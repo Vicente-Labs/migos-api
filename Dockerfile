@@ -1,22 +1,22 @@
-FROM node:20-alpine AS base
+FROM oven/bun:1 AS base
 
 # ---------
 
 FROM base AS deps
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json bun.lockb ./
 
-RUN corepack enable && pnpm install --frozen-lockfile
+RUN bun install --frozen-lockfile
 
 # ---------
 
 FROM base AS prod-deps
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json bun.lockb ./
 
-RUN corepack enable && pnpm install --prod --frozen-lockfile
+RUN bun install --production --frozen-lockfile
 
 # ---------
 
@@ -26,7 +26,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN corepack enable pnpm && pnpm run build
+RUN bun run build
 
 # ---------
 
@@ -53,4 +53,4 @@ EXPOSE 3333
 ENV PORT=3333
 ENV HOSTNAME="0.0.0.0"
 
-ENTRYPOINT ["node", "http/server.js"]
+ENTRYPOINT ["bun", "http/server.js"]
