@@ -1,11 +1,11 @@
-import { count, eq } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { groupSchema as authGroupSchema } from '@/auth'
 import { db } from '@/db'
-import { member } from '@/db/schemas'
+import { member, users } from '@/db/schemas'
 import { UnauthorizedError } from '@/http/_errors/unauthorized-error'
 import { auth } from '@/http/middlewares/auth'
 import { getUserPermissions } from '@/utils/get-user-permissions'
@@ -17,11 +17,21 @@ const groupSchema = z.object({
   name: z.string(),
   description: z.string().nullable().optional(),
   budget: z.string(),
+  currency: z.enum(['USD', 'EUR', 'BRL']),
   updatedAt: z.coerce.date(),
   createdAt: z.coerce.date(),
   endDate: z.coerce.date(),
   drawDate: z.coerce.date().nullable().optional(),
   membersCount: z.number(),
+  members: z
+    .object({
+      id: z.string(),
+      name: z.string(),
+      email: z.string(),
+      avatarUrl: z.string().nullable().optional(),
+    })
+    .array(),
+
   timesMatchesGenerated: z.number(),
 })
 
@@ -84,10 +94,31 @@ export async function getGroup(app: FastifyInstance) {
             'You are not allowed to access this group',
           )
 
-        const membersCount = await db
-          .select({ count: count() })
+        const members = await db
+          .select({
+            id: member.userId,
+            name: users.name,
+            email: users.email,
+            avatarUrl: users.avatarUrl,
+            giftTip: member.giftTip,
+          })
           .from(member)
           .where(eq(member.groupId, groupId))
+          .leftJoin(users, eq(member.userId, users.id))
+
+        const formattedMembers = members
+          .map((member) => {
+            if (!member.id || !member.name || !member.email) return null
+
+            return {
+              id: member.id,
+              name: member.name,
+              email: member.email,
+              avatarUrl: member.avatarUrl,
+              giftTip: member.giftTip,
+            }
+          })
+          .filter((member) => member !== null)
 
         const formattedGroup = {
           id: group.id,
@@ -96,12 +127,14 @@ export async function getGroup(app: FastifyInstance) {
           name: group.name,
           description: group.description,
           budget: group.budget,
+          currency: group.currency,
           updatedAt: group.updatedAt,
           createdAt: group.createdAt,
           endDate: group.endDate,
           drawDate: group.drawDate,
           timesMatchesGenerated: group.timesMatchesGenerated,
-          membersCount: membersCount[0].count,
+          members: formattedMembers,
+          membersCount: formattedMembers.length,
         }
 
         return res.status(200).send({

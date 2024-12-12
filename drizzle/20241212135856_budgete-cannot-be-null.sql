@@ -1,0 +1,1 @@
+ALTER TABLE "groups" ALTER COLUMN "budget" SET NOT NULL;

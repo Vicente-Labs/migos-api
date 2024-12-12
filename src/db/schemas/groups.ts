@@ -1,10 +1,19 @@
 import { createId } from '@paralleldrive/cuid2'
 import { relations } from 'drizzle-orm'
-import { decimal, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import {
+  decimal,
+  integer,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+} from 'drizzle-orm/pg-core'
 
 import { invites } from './invites'
 import { member } from './member'
 import { users } from './users'
+
+export const currencyEnum = pgEnum('currency', ['USD', 'EUR', 'BRL'])
 
 export const groups = pgTable('groups', {
   id: text('id')
@@ -14,6 +23,7 @@ export const groups = pgTable('groups', {
   name: text('name').notNull(),
   description: text('description'),
   budget: decimal('budget', { precision: 10, scale: 2 }).notNull(),
+  currency: currencyEnum('currency').notNull().default('USD'),
 
   avatarUrl: text('avatar_url'),
 

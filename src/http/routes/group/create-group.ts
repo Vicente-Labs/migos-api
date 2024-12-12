@@ -25,6 +25,7 @@ export async function createGroup(app: FastifyInstance) {
             name: z.string(),
             description: z.string().optional(),
             budget: z.coerce.number(),
+            currency: z.enum(['USD', 'EUR', 'BRL']),
             avatarUrl: z.string().optional(),
             endDate: z
               .string()
@@ -47,6 +48,7 @@ export async function createGroup(app: FastifyInstance) {
                   name: z.array(z.string()).optional(),
                   description: z.array(z.string()).optional(),
                   budget: z.array(z.string()).optional(),
+                  currency: z.array(z.string()).optional(),
                   avatarUrl: z.array(z.string()).optional(),
                   endDate: z.array(z.string()).optional(),
                   drawDate: z.array(z.string()).optional(),
@@ -98,8 +100,15 @@ export async function createGroup(app: FastifyInstance) {
             `You cannot create more than ${user[0].groupsCount} groups`,
           )
 
-        const { name, description, budget, avatarUrl, endDate, drawDate } =
-          req.body
+        const {
+          name,
+          description,
+          budget,
+          currency,
+          avatarUrl,
+          endDate,
+          drawDate,
+        } = req.body
 
         const { groupId } = await db.transaction(async (tx) => {
           const group = await tx
@@ -108,6 +117,7 @@ export async function createGroup(app: FastifyInstance) {
               name,
               description,
               budget: budget.toString(),
+              currency,
               avatarUrl,
               ownerId: userId,
               endDate,

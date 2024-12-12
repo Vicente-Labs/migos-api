@@ -27,6 +27,7 @@ import { generateMatches } from './routes/group/generate-matches'
 import { getGroup } from './routes/group/get-group'
 import { getMyMatch } from './routes/group/get-my-match'
 import { transferGroupOwnership } from './routes/group/transfer-group-ownership'
+import { updateBudget } from './routes/group/update-budget'
 import { updateDescription } from './routes/group/update-description'
 import { acceptInvite } from './routes/invites/accept-invite'
 import { createInvite } from './routes/invites/create-invite'
@@ -114,6 +115,7 @@ app.register(fetchGroups)
 app.register(getGroup)
 app.register(generateMatches)
 app.register(getMyMatch)
+app.register(updateBudget)
 
 app.register(createInvite)
 app.register(acceptInvite)

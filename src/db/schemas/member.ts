@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm'
-import { index, pgEnum, pgTable, text } from 'drizzle-orm/pg-core'
+import { index, pgEnum, pgTable, text, unique } from 'drizzle-orm/pg-core'
 
 import { groups, users } from '.'
 
@@ -8,9 +8,7 @@ export const memberRole = pgEnum('member_role', ['ADMIN', 'MEMBER'])
 export const member = pgTable(
   'member',
   {
-    userId: text('user_id')
-      .references(() => users.id, { onDelete: 'cascade' })
-      .primaryKey(),
+    userId: text('user_id').references(() => users.id, { onDelete: 'cascade' }),
     groupId: text('group_id').references(() => groups.id, {
       onDelete: 'cascade',
     }),
@@ -23,6 +21,7 @@ export const member = pgTable(
   },
   (t) => ({
     idx: index('idx_member_user_group').on(t.userId, t.groupId),
+    unique: unique().on(t.userId, t.groupId),
   }),
 )
 

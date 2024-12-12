@@ -1,9 +1,9 @@
-import { roleSchema } from '@/auth'
 import { eq } from 'drizzle-orm'
 import type { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
+import { roleSchema } from '@/auth'
 import { db } from '@/db'
 import { groups, member } from '@/db/schemas'
 import { auth } from '@/http/middlewares/auth'
@@ -16,6 +16,7 @@ const groupSchema = z.object({
   description: z.string().nullable(),
   avatarUrl: z.string().nullable(),
   budget: z.string(),
+  currency: z.enum(['USD', 'EUR', 'BRL']),
   isMember: z.boolean(),
   isOwner: z.boolean(),
   endDate: z.coerce.date().nullable().optional(),
@@ -34,7 +35,7 @@ export async function fetchGroups(app: FastifyInstance) {
         schema: {
           tags: ['group'],
           summary: 'Fetch groups',
-          querystring: z.object({ page: z.coerce.number().default(1) }),
+          // querystring: z.object({ page: z.coerce.number().default(1) }),
           response: {
             200: z.object({
               message: z.literal('Groups fetched successfully'),
@@ -52,8 +53,6 @@ export async function fetchGroups(app: FastifyInstance) {
       async (req, res) => {
         const { sub: userId } = await req.getCurrentUserId()
 
-        const { page } = req.query
-
         const fetchedGroups = await db
           .select({
             group: groups,
@@ -62,8 +61,6 @@ export async function fetchGroups(app: FastifyInstance) {
           .from(member)
           .where(eq(member.userId, userId))
           .leftJoin(groups, eq(groups.id, member.groupId))
-          .offset((page - 1) * 10)
-          .limit(10)
 
         const formattedGroups = fetchedGroups
           .map(({ group, member }) => {
@@ -77,6 +74,7 @@ export async function fetchGroups(app: FastifyInstance) {
             }
           })
           .filter((group): group is NonNullable<typeof group> => group !== null)
+          .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
 
         return res.status(200).send({
           message: 'Groups fetched successfully',

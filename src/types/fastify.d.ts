@@ -1,7 +1,6 @@
 import 'fastify'
 
 import type { Role } from '@/auth'
-
 import type { groups } from '@/db/schemas'
 
 declare module 'fastify' {

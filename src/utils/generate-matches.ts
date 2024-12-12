@@ -23,11 +23,13 @@ export async function generateMatchesFn(members: Members) {
 
       for (let i = 0; i < shuffleArray.length; i++) {
         const giver = shuffleArray[i]
-        let receiver = null
+        let receiver: typeof member.$inferSelect | undefined
 
         for (let j = 0; j < shuffleArray.length; j++) {
           const potentialReceiver = shuffleArray[j]
           if (
+            potentialReceiver.userId &&
+            giver.userId &&
             potentialReceiver.userId !== giver.userId &&
             !usedReceivers.has(potentialReceiver.userId)
           ) {
@@ -41,10 +43,10 @@ export async function generateMatchesFn(members: Members) {
         }
 
         matches.push({
-          giverId: giver.userId,
-          receiverId: receiver.userId,
+          giverId: giver.userId!,
+          receiverId: receiver.userId!,
         })
-        usedReceivers.add(receiver.userId)
+        usedReceivers.add(receiver.userId!)
       }
 
       return { matches: Array.from(matches) }

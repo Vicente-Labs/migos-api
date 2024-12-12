@@ -134,6 +134,34 @@
       "when": 1733498762588,
       "tag": "20241206152602_add-language-to-pre-register",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1733933066173,
+      "tag": "20241211160426_update-budget-field-to-be-nullish",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1733935793310,
+      "tag": "20241211164953_update-things",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1734011700508,
+      "tag": "20241212135500_add_group_currency",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1734011936484,
+      "tag": "20241212135856_budgete-cannot-be-null",
+      "breakpoints": true
     }
   ]
 }
