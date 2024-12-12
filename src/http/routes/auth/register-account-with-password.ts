@@ -40,7 +40,6 @@ export async function registerAccountWithPassword(app: FastifyInstance) {
                     z.literal('Password must be at least 8 characters long'),
                   )
                   .optional(),
-                username: z.array(z.literal('Username is required')).optional(),
               })
               .optional(),
           }),
