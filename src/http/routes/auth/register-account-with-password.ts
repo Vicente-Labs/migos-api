@@ -6,7 +6,7 @@ import { z } from 'zod'
 
 import { db } from '@/db'
 import { users } from '@/db/schemas'
-import { BadRequestError } from '@/http/_errors/bad-request-errors'
+import { ConflictError } from '@/http/_errors/conflict-error'
 
 export async function registerAccountWithPassword(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -43,6 +43,9 @@ export async function registerAccountWithPassword(app: FastifyInstance) {
               })
               .optional(),
           }),
+          409: z.object({
+            message: z.literal('User with same email already exists'),
+          }),
           500: z.object({
             message: z.literal('Internal server error'),
           }),
@@ -58,7 +61,7 @@ export async function registerAccountWithPassword(app: FastifyInstance) {
         .where(eq(users.email, email.toLowerCase()))
 
       if (userWithSameEmail && userWithSameEmail.length > 0)
-        throw new BadRequestError('User with same email already exists')
+        throw new ConflictError('User with same email already exists')
 
       const passwordHash = await hash(password, 8)
 

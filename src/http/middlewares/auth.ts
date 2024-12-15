@@ -29,9 +29,9 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
 
         return { sub: payload.sub }
       } catch (error) {
-        if (error instanceof jose.errors.JWTExpired) {
+        if (error instanceof jose.errors.JWTExpired)
           throw new UnauthorizedError('Token expired')
-        }
+
         throw new UnauthorizedError('Invalid token')
       }
     }

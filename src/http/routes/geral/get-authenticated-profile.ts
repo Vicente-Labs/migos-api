@@ -36,7 +36,7 @@ export async function getAuthenticatedProfile(app: FastifyInstance) {
               message: z.literal('User not found'),
             }),
             401: z.object({
-              message: z.enum(['Missing auth token.', 'Invalid token.']),
+              message: z.enum(['Missing auth token', 'Invalid token']),
             }),
             500: z.object({
               message: z.literal('Internal server error'),
