@@ -1,3 +1,5 @@
+import os from 'node:os'
+
 import fastifyCors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastifySwagger from '@fastify/swagger'
@@ -9,8 +11,6 @@ import {
   validatorCompiler,
   ZodTypeProvider,
 } from 'fastify-type-provider-zod'
-import { fastifyMedicusPlugin } from 'medicus/fastify'
-import { nodeMedicusPlugin } from 'medicus/node'
 
 import { env } from '@/env'
 
@@ -92,8 +92,27 @@ app.register(fastifyJwt, {
 
 app.register(fastifyCors) // any front-end can access this API
 
-app.register(fastifyMedicusPlugin, {
-  plugins: [nodeMedicusPlugin()],
+app.get('/health', () => {
+  const cpuUsage = process.cpuUsage()
+  const loadAverage = os.loadavg()
+
+  return {
+    status: 'healthy',
+    debug: {
+      ts: Date.now(),
+      uptime: os.uptime(),
+      platform: os.platform(),
+      arch: os.arch(),
+      cpus: os.cpus().length,
+      cpuUsageSystem: cpuUsage.system,
+      cpuUsageUser: cpuUsage.user,
+      memoryTotal: os.totalmem(),
+      memoryFree: os.freemem(),
+      loadAverage1m: loadAverage[0]!,
+      loadAverage5m: loadAverage[1]!,
+      loadAverage15m: loadAverage[2]!,
+    },
+  }
 })
 
 app.register(registerAccountWithPassword)
