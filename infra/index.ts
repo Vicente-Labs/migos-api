@@ -47,7 +47,7 @@ export const apiAlias = new cloudflare.Record(
     name: 'api',
     type: 'CNAME',
     content: loadBalancer.loadBalancer.dnsName,
-    proxied: true,
+    proxied: false,
   },
   {
     customTimeouts: {
