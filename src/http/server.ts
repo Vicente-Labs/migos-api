@@ -9,6 +9,8 @@ import {
   validatorCompiler,
   ZodTypeProvider,
 } from 'fastify-type-provider-zod'
+import { fastifyMedicusPlugin } from 'medicus/fastify'
+import { nodeMedicusPlugin } from 'medicus/node'
 
 import { env } from '@/env'
 
@@ -90,12 +92,8 @@ app.register(fastifyJwt, {
 
 app.register(fastifyCors) // any front-end can access this API
 
-app.get('/health', async (_req, res) => {
-  return res.status(200).send({
-    status: 'healthy',
-    uptime: process.uptime(),
-    timestamp: Date.now(),
-  })
+app.register(fastifyMedicusPlugin, {
+  plugins: [nodeMedicusPlugin()],
 })
 
 app.register(registerAccountWithPassword)
